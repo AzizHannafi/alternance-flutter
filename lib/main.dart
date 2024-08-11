@@ -1,12 +1,18 @@
+import 'package:alternance_flutter/utils/OnboardingUtils.dart';
 import 'package:alternance_flutter/views/OnboardingPage.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final bool isOnboardingDone = await OnboardingUtils.isOnboardingDone();
+
+  runApp(MyApp(isOnboardingDone: isOnboardingDone));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isOnboardingDone;
+
+  const MyApp({super.key, required this.isOnboardingDone});
 
   // This widget is the root of your application.
   @override
@@ -17,7 +23,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const OnboardingPage(),
+      home: isOnboardingDone
+          ? const MyHomePage(title: "hello")
+          : const OnboardingPage(),
     );
   }
 }

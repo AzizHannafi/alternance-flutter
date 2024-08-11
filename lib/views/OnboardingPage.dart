@@ -1,3 +1,5 @@
+import 'package:alternance_flutter/main.dart';
+import 'package:alternance_flutter/utils/OnboardingUtils.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -12,21 +14,14 @@ class OnboardingPage extends StatelessWidget {
           description:
               'Discover a world of career opportunities right at your fingertips.',
           imagePath: 'images/student.png',
-          bgColor: const Color(0xff0d152c),
-        ),
-        OnboardingPageModel(
-          title: 'Connect with Organizations and Grant Opportunities',
-          description:
-              'Build valuable connections with organizations and access exclusive opportunities',
-          imagePath: 'images/student.png',
           bgColor: const Color(0xff43a687),
         ),
         OnboardingPageModel(
           title: 'Searching for Talent and Motivated People',
           description:
               'Find and engage with driven individuals ready to contribute and excel.',
-          imagePath: 'images/student.png',
-          bgColor: const Color(0xfffeae4f),
+          imagePath: 'images/hr_male.png',
+          bgColor: const Color(0xff0d152c),
         ),
         OnboardingPageModel(
             title: 'Enroll in Your First Step in Your Professional Career',
@@ -56,6 +51,28 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
   int _currentPage = 0;
   // Define a controller for the pageview
   final PageController _pageController = PageController(initialPage: 0);
+
+  void _onNextPressed() async {
+    // _currentPage == widget.pages.length - 1;
+    _pageController.animateToPage(_currentPage + 1,
+        curve: Curves.easeInOutCubic,
+        duration: const Duration(milliseconds: 250));
+
+    if (_currentPage == widget.pages.length - 1) {
+      // This is the last page
+      await OnboardingUtils.setOnboardingDone(true);
+      // Navigate to the next screen
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const MyHomePage(
+                title: "hello",
+              )));
+    } else {
+      // Move to the next page
+      setState(() {
+        _currentPage++;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,8 +178,12 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
                                     : Colors.white,
                             textStyle: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
-                        onPressed: () {
+                        onPressed: () async {
                           widget.onSkip?.call();
+                          OnboardingUtils.setOnboardingDone(true);
+                          _pageController.animateToPage(widget.pages.length - 1,
+                              curve: Curves.easeInOutCubic,
+                              duration: const Duration(milliseconds: 250));
                         },
                         child: const Text("Skip")),
                     TextButton(
@@ -175,25 +196,36 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
                           textStyle: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
                       onPressed: () {
-                        if (_currentPage == widget.pages.length - 1) {
-                          widget.onFinish?.call();
-                        } else {
-                          _pageController.animateToPage(_currentPage + 1,
-                              curve: Curves.easeInOutCubic,
-                              duration: const Duration(milliseconds: 250));
-                        }
+                        _onNextPressed();
                       },
                       child: Row(
                         children: [
-                          Text(
-                            _currentPage == widget.pages.length - 1
-                                ? "Finish"
-                                : "Next",
+                          ElevatedButton(
+                            onPressed: () {
+                              _onNextPressed();
+                            },
+                            style: ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll(
+                              _currentPage == widget.pages.length - 1
+                                  ? const Color(0xff0d152c)
+                                  : Colors.white,
+                            )),
+                            child: Text(
+                              _currentPage == widget.pages.length - 1
+                                  ? "Finish"
+                                  : "Next",
+                              style: TextStyle(
+                                  color: _currentPage == widget.pages.length - 1
+                                      ? Colors.white
+                                      : const Color(0xff0d152c)),
+                            ),
                           ),
                           const SizedBox(width: 8),
-                          Icon(_currentPage == widget.pages.length - 1
-                              ? Icons.done
-                              : Icons.arrow_forward),
+                          Icon(
+                            _currentPage == widget.pages.length - 1
+                                ? Icons.done
+                                : Icons.arrow_forward,
+                          ),
                         ],
                       ),
                     ),
