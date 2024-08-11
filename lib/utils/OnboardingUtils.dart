@@ -6,7 +6,9 @@ class OnboardingUtils {
   // Method to check if onboarding is done
   static Future<bool> isOnboardingDone() async {
     final prefs = await SharedPreferences.getInstance();
-    // return prefs.getBool(_onboardingKey) ?? false;
+    //return prefs.getBool(_onboardingKey) ?? false;
+
+    // need to remove this only for testing purpose
     return false;
   }
 

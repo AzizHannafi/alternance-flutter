@@ -1,5 +1,6 @@
 import 'package:alternance_flutter/main.dart';
 import 'package:alternance_flutter/utils/OnboardingUtils.dart';
+import 'package:alternance_flutter/views/auth/SignIn.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -62,10 +63,8 @@ class _OnboardingPageState extends State<OnboardingPagePresenter> {
       // This is the last page
       await OnboardingUtils.setOnboardingDone(true);
       // Navigate to the next screen
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const MyHomePage(
-                title: "hello",
-              )));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const SignInPage()));
     } else {
       // Move to the next page
       setState(() {
