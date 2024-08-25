@@ -1,6 +1,7 @@
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/OnboardingUtils.dart';
 import 'package:alternance_flutter/views/BottomNavigationC.dart';
+import 'package:alternance_flutter/views/Browse.dart';
 import 'package:alternance_flutter/views/Home.dart';
 import 'package:alternance_flutter/views/auth/SignUp.dart';
 import 'package:alternance_flutter/views/custom/CheckboxC.dart';
@@ -164,7 +165,7 @@ class _SignInPageState extends State<SignInPage> {
                           if (_formKey.currentState?.validate() ?? false) {
                             Navigator.of(context)
                                 .pushReplacement(MaterialPageRoute(
-                              builder: (context) => const Home(),
+                              builder: (context) => const Browse(),
                             ));
                           }
                         },
