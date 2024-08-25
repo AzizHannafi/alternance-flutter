@@ -7,4 +7,5 @@ class ColorsUtils {
   static const Color primaryGreen = Color(0xff43a687);
   static const Color primaryWhite = Color(0xfff5f5f5);
   static const Color primaryPurpule = Colors.deepPurple;
+  static const Color lightGray = Color.fromARGB(255, 255, 255, 255);
 }

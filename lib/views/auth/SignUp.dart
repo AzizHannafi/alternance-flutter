@@ -1,35 +1,20 @@
-import 'package:alternance_flutter/utils/ColorsUtils.dart';
-import 'package:alternance_flutter/utils/OnboardingUtils.dart';
-import 'package:alternance_flutter/views/BottomNavigationC.dart';
-import 'package:alternance_flutter/views/Home.dart';
-import 'package:alternance_flutter/views/auth/SignUp.dart';
-import 'package:alternance_flutter/views/custom/CheckboxC.dart';
 import 'package:flutter/material.dart';
+import 'package:alternance_flutter/utils/ColorsUtils.dart';
+import 'package:alternance_flutter/views/custom/CheckboxC.dart';
+import 'package:alternance_flutter/views/auth/SignIn.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignUpPageState extends State<SignUpPage> {
   bool _isPasswordVisible = false;
-  bool _rememberMe = false;
-  bool isOnboardingDone = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  @override
-  void initState() {
-    super.initState();
-    _loadOnboardingStatus();
-  }
 
-  Future<void> _loadOnboardingStatus() async {
-    bool onboardingDone = await OnboardingUtils.isOnboardingDone();
-    setState(() {
-      isOnboardingDone = onboardingDone;
-    });
-  }
+  String? _selectedOption;
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +22,7 @@ class _SignInPageState extends State<SignInPage> {
       backgroundColor: ColorsUtils.primaryWhite,
       body: Form(
         key: _formKey,
-        child:
-            // uncomment this in the final version (just for for test purpose onborading screen need to lead to sign in page )
-            //  isOnboardingDone
-            //     ? const OnboardingPage()
-            //     :
-            Center(
+        child: Center(
           child: Card(
             elevation: 8,
             child: Container(
@@ -58,33 +38,22 @@ class _SignInPageState extends State<SignInPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        "Welcome to Alternance TN!",
+                        "Thank you for joining us",
                         style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        "Enter your email and password to continue.",
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        textAlign: TextAlign.center,
                       ),
                     ),
                     _gap(),
                     TextFormField(
                       validator: (value) {
-                        // add email validation
                         if (value == null || value.isEmpty) {
                           return 'This field is required';
                         }
-
                         bool emailValid = RegExp(
                                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value);
                         if (!emailValid) {
                           return 'Please enter a valid email';
                         }
-
                         return null;
                       },
                       decoration: const InputDecoration(
@@ -102,7 +71,6 @@ class _SignInPageState extends State<SignInPage> {
                         if (value == null || value.isEmpty) {
                           return 'This field is required';
                         }
-
                         if (value.length < 6) {
                           return 'Password must be at least 6 characters';
                         }
@@ -129,18 +97,42 @@ class _SignInPageState extends State<SignInPage> {
                           )),
                     ),
                     _gap(),
-                    CheckboxListTile(
-                      value: _rememberMe,
-                      onChanged: (value) {
-                        if (value == null) return;
-                        setState(() {
-                          _rememberMe = value;
-                        });
-                      },
-                      title: const Text('Remember me'),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      dense: true,
-                      contentPadding: const EdgeInsets.all(0),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Checkboxc(
+                            imagePth: "assets/university.svg",
+                            text: const Text("University"),
+                            isSelected: _selectedOption == "University",
+                            onSelected: () {
+                              setState(() {
+                                _selectedOption = "University";
+                              });
+                            },
+                          ),
+                          Checkboxc(
+                            imagePth: "assets/student.svg",
+                            text: const Text("Student"),
+                            isSelected: _selectedOption == "Student",
+                            onSelected: () {
+                              setState(() {
+                                _selectedOption = "Student";
+                              });
+                            },
+                          ),
+                          Checkboxc(
+                            imagePth: "assets/company.svg",
+                            text: const Text("Company"),
+                            isSelected: _selectedOption == "Company",
+                            onSelected: () {
+                              setState(() {
+                                _selectedOption = "Company";
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                     _gap(),
                     SizedBox(
@@ -153,7 +145,7 @@ class _SignInPageState extends State<SignInPage> {
                         child: const Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Text(
-                            'Sign in',
+                            'Sign Up',
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -162,9 +154,10 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState?.validate() ?? false) {
+                            // Perform signup action here
                             Navigator.of(context)
                                 .pushReplacement(MaterialPageRoute(
-                              builder: (context) => const Home(),
+                              builder: (context) => const SignInPage(),
                             ));
                           }
                         },
@@ -174,16 +167,16 @@ class _SignInPageState extends State<SignInPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Don't have an account?"),
+                          const Text("Don't have an account ?"),
                           TextButton(
                               onPressed: () {
                                 Navigator.of(context)
                                     .pushReplacement(MaterialPageRoute(
-                                  builder: (context) => const SignUpPage(),
+                                  builder: (context) => const SignInPage(),
                                 ));
                               },
                               child: const Text(
-                                "Join us!",
+                                "Sign in!",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: ColorsUtils.primaryGreen),
