@@ -1,6 +1,6 @@
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/OnboardingUtils.dart';
-import 'package:alternance_flutter/views/BottomNavigationC.dart';
+import 'package:alternance_flutter/views/custom/BottomNavigationC.dart';
 import 'package:alternance_flutter/views/Browse.dart';
 import 'package:alternance_flutter/views/Home.dart';
 import 'package:alternance_flutter/views/auth/SignUp.dart';

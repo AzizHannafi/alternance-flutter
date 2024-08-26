@@ -63,6 +63,7 @@ flutter:
   assets:
     - images/student.png
     - images/hr_male.png
+    - images/hr_female.png
     - images/alternance_logo.png
     - assets/company.svg
     - assets/student.svg
