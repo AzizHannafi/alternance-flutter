@@ -8,4 +8,7 @@ class ColorsUtils {
   static const Color primaryPurpule = Colors.deepPurple;
   static const Color lightGray = Color.fromARGB(255, 255, 255, 255);
   static const Color white = Colors.white;
+  static const Color transparentPurple = Color.fromARGB(52, 104, 58, 183);
+  static const Color transparentBlue = Color.fromARGB(47, 4, 57, 218);
+  static const Color transparentGrey = Color.fromARGB(48, 13, 21, 44);
 }

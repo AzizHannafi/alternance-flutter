@@ -1,7 +1,9 @@
+// Updated import for OfferDetails
 import 'package:alternance_flutter/service/Offer/OfferService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
+import 'package:alternance_flutter/views/OfferDetails.dart';
+import 'package:alternance_flutter/model/Offers.dart';
 import 'package:flutter/material.dart';
-import 'package:alternance_flutter/model/Offers.dart'; // Adjust the import path as necessary
 
 class OfferFeedPage extends StatefulWidget {
   const OfferFeedPage({Key? key}) : super(key: key);
@@ -27,11 +29,11 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
         future: _offersFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData) {
-            return Center(child: Text('No data available'));
+            return const Center(child: Text('No data available'));
           }
 
           final offers = snapshot.data!.offers;
@@ -42,7 +44,7 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
               child: ListView.builder(
                 itemCount: offers.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final item = offers[index];
+                  final offer = offers[index];
                   return Container(
                     height: 136,
                     margin: const EdgeInsets.symmetric(
@@ -54,51 +56,66 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                     child: Row(
                       children: [
                         Expanded(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.title,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 8),
-                            Text(item.description,
-                                style: Theme.of(context).textTheme.bodyMedium),
-                            const SizedBox(height: 8),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icons.bookmark_border_rounded,
-                                Icons.share,
-                                Icons.more_vert
-                              ].map((e) {
-                                return InkWell(
-                                  onTap: () {},
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Icon(e, size: 16),
-                                  ),
-                                );
-                              }).toList(),
-                            )
-                          ],
-                        )),
-                        // Assuming you want to display a default image or handle missing images
-                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                offer.title,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(offer.description,
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icons.bookmark_border_rounded,
+                                  Icons.share,
+                                  Icons.more_vert
+                                ].map((e) {
+                                  return InkWell(
+                                    onTap: () {},
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 8.0),
+                                      child: Icon(e, size: 16),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    OfferDetails(offer: offer),
+                              ),
+                            );
+                          },
+                          child: Container(
                             width: 100,
                             height: 100,
                             decoration: BoxDecoration(
-                                color: ColorsUtils.transparentGreen,
-                                borderRadius: BorderRadius.circular(8.0),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                      "https://e7.pngegg.com/pngimages/592/963/png-clipart-commercial-building-computer-icons-management-building-building-company.png"), // Replace with actual image URL property or default
-                                ))),
+                              color: ColorsUtils.transparentGreen,
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: const DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  "https://e7.pngegg.com/pngimages/592/963/png-clipart-commercial-building-computer-icons-management-building-building-company.png",
+                                ), // Use the offer's image URL
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   );
