@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
     return Center(
       child: Container(
         color: ColorsUtils.lightGray,
-        child: Text("Hello from Home"),
+        child: const Text("Hello from Home"),
       ),
     );
   }

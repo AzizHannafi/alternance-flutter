@@ -1,4 +1,3 @@
-import 'package:alternance_flutter/main.dart';
 import 'package:alternance_flutter/utils/OnboardingUtils.dart';
 import 'package:alternance_flutter/views/auth/SignIn.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,7 @@ class OnboardingPage extends StatelessWidget {
     return Scaffold(
       body: OnboardingPagePresenter(pages: [
         OnboardingPageModel(
-          title: 'Search for Jobs, Internships, and Work/Study Programs',
+          title: 'Search for Jobs, Internships,or Work/Study Programs',
           description:
               'Discover a world of career opportunities right at your fingertips.',
           imagePath: 'images/student.png',

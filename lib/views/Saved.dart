@@ -10,8 +10,7 @@ class Saved extends StatefulWidget {
 class _SavedState extends State<Saved> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      
+    return const Center(
       child: Text("Hello from Saved"),
     );
   }

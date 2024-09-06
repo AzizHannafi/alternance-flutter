@@ -7,7 +7,7 @@ class Checkboxc extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onSelected;
 
-  Checkboxc({
+  const Checkboxc({
     super.key,
     required this.imagePth,
     required this.text,

@@ -8,12 +8,12 @@ class ListTileC extends StatefulWidget {
   final bool isSelected;
 
   const ListTileC({
-    Key? key,
+    super.key,
     required this.title,
     required this.icon,
     required this.onTap,
     this.isSelected = false,
-  }) : super(key: key);
+  });
 
   @override
   _ListTileCState createState() => _ListTileCState();

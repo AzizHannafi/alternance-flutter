@@ -1,11 +1,11 @@
+import 'package:alternance_flutter/service/Auth/AuthService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/OnboardingUtils.dart';
-import 'package:alternance_flutter/views/custom/BottomNavigationC.dart';
 import 'package:alternance_flutter/views/Browse.dart';
-import 'package:alternance_flutter/views/Home.dart';
-import 'package:alternance_flutter/views/auth/SignUp.dart';
-import 'package:alternance_flutter/views/custom/CheckboxC.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'SignUp.dart'; // Adjust the import according to your file structure
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -19,6 +19,13 @@ class _SignInPageState extends State<SignInPage> {
   bool _rememberMe = false;
   bool isOnboardingDone = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // Controllers for TextFormFields
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  final AuthService _authService = AuthService(); // Initialize AuthService
+
   @override
   void initState() {
     super.initState();
@@ -32,18 +39,41 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
+  Future<void> _login() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      final email = _emailController.text; // Get the email from controller
+      final password =
+          _passwordController.text; // Get the password from controller
+
+      final token = await _authService.loginUser(email, password);
+
+      if (token != null) {
+        // Save the email to shared preferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('email', email);
+
+        // Navigate to the next page if login is successful
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const Browse(),
+          ),
+        );
+      } else {
+        // Show error message if login fails
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login failed')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsUtils.primaryWhite,
       body: Form(
         key: _formKey,
-        child:
-            // uncomment this in the final version (just for for test purpose onborading screen need to lead to sign in page )
-            //  isOnboardingDone
-            //     ? const OnboardingPage()
-            //     :
-            Center(
+        child: Center(
           child: Card(
             elevation: 8,
             child: Container(
@@ -73,19 +103,17 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     _gap(),
                     TextFormField(
+                      controller: _emailController, // Assign controller
                       validator: (value) {
-                        // add email validation
                         if (value == null || value.isEmpty) {
                           return 'This field is required';
                         }
-
                         bool emailValid = RegExp(
                                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value);
                         if (!emailValid) {
                           return 'Please enter a valid email';
                         }
-
                         return null;
                       },
                       decoration: const InputDecoration(
@@ -99,11 +127,11 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     _gap(),
                     TextFormField(
+                      controller: _passwordController, // Assign controller
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'This field is required';
                         }
-
                         if (value.length < 6) {
                           return 'Password must be at least 6 characters';
                         }
@@ -151,6 +179,7 @@ class _SignInPageState extends State<SignInPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4)),
                             backgroundColor: ColorsUtils.primaryBleu),
+                        onPressed: _login,
                         child: const Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Text(
@@ -160,15 +189,7 @@ class _SignInPageState extends State<SignInPage> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                        ),
-                        onPressed: () {
-                          if (_formKey.currentState?.validate() ?? false) {
-                            Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                              builder: (context) => const Browse(),
-                            ));
-                          }
-                        },
+                        ), // Call the login method here
                       ),
                     ),
                     SizedBox(

@@ -1,3 +1,4 @@
+import 'package:alternance_flutter/views/OfferFeedPage.dart';
 import 'package:flutter/material.dart';
 
 class Offer extends StatefulWidget {
@@ -10,8 +11,6 @@ class Offer extends StatefulWidget {
 class _OfferState extends State<Offer> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Hello from offer"),
-    );
+    return const OfferFeedPage();
   }
 }

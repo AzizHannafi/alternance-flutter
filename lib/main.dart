@@ -1,5 +1,4 @@
 import 'package:alternance_flutter/views/OnboardingPage.dart';
-import 'package:alternance_flutter/views/auth/SignIn.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
