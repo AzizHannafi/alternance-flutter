@@ -1,13 +1,13 @@
+import 'package:flutter/material.dart';
+import 'Account.dart';
+import 'Settings.dart';
+import 'Help.dart';
 import 'package:alternance_flutter/views/custom/BottomNavigationC.dart';
 import 'package:alternance_flutter/views/Home.dart';
 import 'package:alternance_flutter/views/News.dart';
 import 'package:alternance_flutter/views/Offer.dart';
 import 'package:alternance_flutter/views/Saved.dart';
 import 'package:alternance_flutter/views/custom/DrawerC.dart';
-import 'package:flutter/material.dart';
-import 'Account.dart'; // Import your new widgets
-import 'Settings.dart';
-import 'Help.dart';
 
 class Browse extends StatefulWidget {
   const Browse({super.key});
@@ -26,35 +26,33 @@ class _BrowseState extends State<Browse> {
   @override
   void initState() {
     super.initState();
-    _currentBody =
-        bottomNavPages[_selectedIndex]; // Initialize with a default page
+    _currentBody = bottomNavPages[_selectedIndex];
   }
 
   void _onBottomNavItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      _currentBody =
-          bottomNavPages[index]; // Update the body based on bottom navigation
+      _currentBody = bottomNavPages[index];
     });
   }
 
   void _onDrawerItemTapped(int index) {
-    setState(() {
-      _currentBody = drawerPages[index]; // Update the body based on drawer item
-      Navigator.pop(context); // Close the drawer
-    });
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => drawerPages[index]),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Alternance tn')),
-      drawer: Drawerc(
-          onItemTapped: _onDrawerItemTapped), // Pass the drawer callback
-      body: _currentBody, // Show the current selected body
+      drawer: Drawerc(onItemTapped: _onDrawerItemTapped),
+      body: _currentBody,
       bottomNavigationBar: BottomNavigationC(
         selectedIndex: _selectedIndex,
-        onItemTapped: _onBottomNavItemTapped, // Pass the bottom nav callback
+        onItemTapped: _onBottomNavItemTapped,
       ),
     );
   }
