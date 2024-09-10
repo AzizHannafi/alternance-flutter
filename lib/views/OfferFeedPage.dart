@@ -6,7 +6,7 @@ import 'package:alternance_flutter/model/Offers.dart';
 import 'package:flutter/material.dart';
 
 class OfferFeedPage extends StatefulWidget {
-  const OfferFeedPage({Key? key}) : super(key: key);
+  const OfferFeedPage({super.key});
 
   @override
   _OfferFeedPageState createState() => _OfferFeedPageState();
@@ -102,11 +102,11 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                             );
                           },
                           child: Container(
-                            width: 100,
-                            height: 100,
+                            width: 70,
+                            height: 70,
                             decoration: BoxDecoration(
                               color: ColorsUtils.transparentGreen,
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius: BorderRadius.circular(50),
                               image: const DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(

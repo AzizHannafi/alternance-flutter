@@ -1,11 +1,11 @@
 import 'package:alternance_flutter/model/Offer.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
+import 'package:alternance_flutter/utils/DateUtilsC.dart';
 import 'package:flutter/material.dart';
-import 'package:alternance_flutter/model/Offers.dart'; // Ensure the import for the offer model
 
 class OfferDetails extends StatefulWidget {
   final Offer? offer;
-  const OfferDetails({Key? key, required this.offer}) : super(key: key);
+  const OfferDetails({super.key, required this.offer});
 
   @override
   _OfferDetailsState createState() => _OfferDetailsState();
@@ -23,11 +23,91 @@ class _OfferDetailsState extends State<OfferDetails> {
   Widget displayContent() {
     switch (selectedContent) {
       case 'Description':
-        return Text(widget.offer!.description); // Use the offer's description
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Offer Details",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Title: ${widget.offer!.title}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+            Text(
+              'Description: ${widget.offer!.description}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+            Text(
+              'Salary: \$${widget.offer!.salary ?? "N/A"}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+            Text(
+              'Duration: ${widget.offer!.duration ?? "N/A"}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+            Text(
+              'Employment Type: ${widget.offer!.employmentType ?? "N/A"}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+            Text(
+              'Location: ${widget.offer!.location ?? "N/A"}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+            Text(
+              'Status: ${widget.offer!.status ?? "N/A"}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+            Text(
+              'Created At: ${DateUtilsC.formatDateString(widget.offer!.createdAt)}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+          ],
+        );
+      // Use the offer's description
       case 'University':
-        return const Text(
-          'Details about the University...',
-          style: TextStyle(fontSize: 17),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "University description",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'University: ${widget.offer!.university?.universityName ?? "N/A"}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+            Text(
+              'Location: ${widget.offer!.university?.location ?? "N/A"}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+            Text(
+              'About: ${widget.offer!.university?.about ?? "N/A"}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+            Text(
+              'Contact Info: ${widget.offer!.university?.contactInfo ?? "N/A"}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8), // Add some spacing
+            Text(
+              'socialMedia: ${widget.offer!.university?.socialMedia ?? "N/A"}',
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
         );
       default:
         return Text(
@@ -39,6 +119,8 @@ class _OfferDetailsState extends State<OfferDetails> {
 
   @override
   Widget build(BuildContext context) {
+    // DateTime createdAt = DateTime.parse(widget.offer!.createdAt);
+    // String createdAtOffer = DateFormat('yyyy/MM/dd').format(createdAt);
     final screenWidth = MediaQuery.of(context).size.width;
     final buttonStyle = BoxDecoration(
       color: ColorsUtils.transparentGreen,
@@ -51,7 +133,7 @@ class _OfferDetailsState extends State<OfferDetails> {
     );
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.offer!.title!), // Use the offer's title
+        title: Text(widget.offer!.title), // Use the offer's title
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -72,8 +154,8 @@ class _OfferDetailsState extends State<OfferDetails> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    width: 100,
-                    height: 100,
+                    width: 70,
+                    height: 70,
                     decoration: BoxDecoration(
                       color: ColorsUtils.transparentGreen,
                       borderRadius:
@@ -89,8 +171,8 @@ class _OfferDetailsState extends State<OfferDetails> {
                   const SizedBox(height: 8),
                   // Job Title
                   Text(
-                    'Senior UI/UX Designer',
-                    style: const TextStyle(
+                    widget.offer!.title,
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -101,7 +183,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                   const SizedBox(height: 8),
                   // Company Name
                   Text(
-                    'Shopee Sg',
+                    widget.offer!.company.companyName,
                     style: Theme.of(context).textTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
@@ -117,8 +199,8 @@ class _OfferDetailsState extends State<OfferDetails> {
                               horizontal: 16, vertical: 8),
                           decoration: buttonStyle,
                           child: Center(
-                            child: const Text(
-                              'Status',
+                            child: Text(
+                              widget.offer!.status,
                               style: textStyle,
                             ),
                           ),
@@ -133,7 +215,9 @@ class _OfferDetailsState extends State<OfferDetails> {
                           decoration: buttonStyle,
                           child: Center(
                             child: Text(
-                              'Created At',
+                              // widget.offer!.createdAt,
+                              DateUtilsC.formatDateString(
+                                  widget.offer!.createdAt),
                               style: textStyle,
                             ),
                           ),
@@ -144,43 +228,15 @@ class _OfferDetailsState extends State<OfferDetails> {
                 ],
               ),
             ),
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                color: ColorsUtils.transparentGreen,
-                borderRadius: BorderRadius.circular(50),
-                image: const DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    "https://e7.pngegg.com/pngimages/592/963/png-clipart-commercial-building-computer-icons-management-building-building-company.png",
-                  ), // Offer's image
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-
-            Text(
-              widget.offer!.title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              widget.offer!.company
-                  .companyName, // Use the company name from the offer
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
             const SizedBox(height: 16),
-            // Additional details (salary, job type, etc.)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Column(
                   children: [
                     Container(
+                      height: 55,
+                      width: 55,
                       padding:
                           const EdgeInsets.all(8), // Padding around the icon
                       decoration: const BoxDecoration(
@@ -190,7 +246,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                       child: const Center(
                         child: Icon(
                           Icons.monetization_on_outlined,
-                          size: 40, // Icon size
+                          size: 30, // Icon size
                           color: ColorsUtils.primaryGreen, // Icon color
                         ),
                       ),
@@ -198,12 +254,18 @@ class _OfferDetailsState extends State<OfferDetails> {
                     const SizedBox(height: 10), // Replace with your icon
                     const Text('Salary'),
                     const SizedBox(height: 5),
-                    Text(widget.offer!.salary.toString()),
+                    Text(
+                        widget.offer!.salary != null
+                            ? widget.offer!.salary.toString()
+                            : "N/A",
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
                 Column(
                   children: [
                     Container(
+                      height: 55,
+                      width: 55,
                       padding:
                           const EdgeInsets.all(8), // Padding around the icon
                       decoration: const BoxDecoration(
@@ -213,20 +275,26 @@ class _OfferDetailsState extends State<OfferDetails> {
                       child: const Center(
                         child: Icon(
                           Icons.business_center_outlined,
-                          size: 40, // Icon size
+                          size: 30, // Icon size
                           color: ColorsUtils.primaryBleu, // Icon color
                         ),
                       ),
                     ),
                     const SizedBox(height: 10), // Replace with your icon
-                    Text('Job Type'),
+                    const Text('Job Type'),
                     const SizedBox(height: 5),
-                    Text(widget.offer!.locationType.toString()),
+                    Text(
+                        widget.offer!.locationType != null
+                            ? widget.offer!.locationType.toString()
+                            : "N/A",
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
                 Column(
-                  children: <Widget>[
+                  children: [
                     Container(
+                      height: 55,
+                      width: 55,
                       padding:
                           const EdgeInsets.all(8), // Padding around the icon
                       decoration: const BoxDecoration(
@@ -237,7 +305,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                       child: const Center(
                         child: Icon(
                           Icons.timer_outlined,
-                          size: 40, // Icon size
+                          size: 30, // Icon size
                           color: ColorsUtils.primaryPurpule, // Icon color
                         ),
                       ),
@@ -245,18 +313,99 @@ class _OfferDetailsState extends State<OfferDetails> {
                     const SizedBox(height: 10), // Replace with your icon
                     const Text("Duration"),
                     const SizedBox(height: 5),
-                    Text(widget.offer!.duration),
+                    Text(
+                      widget.offer!.duration != null
+                          ? widget.offer!.duration
+                          : "N/A",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            // Display the selected content
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => updateContent('Description'),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: selectedContent == 'Description'
+                            ? ColorsUtils.transparentBlue
+                            : ColorsUtils.transparentGrey,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Description',
+                          style: textStyle,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => updateContent('University'),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: selectedContent == 'University'
+                            ? ColorsUtils.transparentBlue
+                            : ColorsUtils.transparentGrey,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'University',
+                          style: textStyle,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(width: 16),
             Expanded(
-              child: SingleChildScrollView(
-                child: displayContent(),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: SingleChildScrollView(
+                    child: displayContent(),
+                  ),
+                ),
               ),
             ),
+            Positioned(
+              bottom: 16,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SizedBox(
+                  width: screenWidth,
+                  height: 50,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      // Handle apply button press
+                    },
+                    backgroundColor: ColorsUtils.primaryGreen,
+                    child: const Text(
+                      'Apply Now',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
