@@ -1,14 +1,33 @@
+import 'package:alternance_flutter/model/Student.dart';
 import 'package:flutter/material.dart';
 
-class ProfileCard extends StatelessWidget {
-  const ProfileCard({Key? key}) : super(key: key);
+class StudentProfileWidget extends StatefulWidget {
+  Student student;
+  StudentProfileWidget({super.key, required this.student});
 
   @override
+  State<StudentProfileWidget> createState() => _StudentProfileWidgetState();
+}
+
+class _StudentProfileWidgetState extends State<StudentProfileWidget> {
+  @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0), // Add rounded corners
+    return Container(
+      constraints: const BoxConstraints(
+        maxHeight: 370, // Set a maximum height for the education section
+      ),
+      padding: const EdgeInsets.all(25.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center, // Center content
@@ -35,9 +54,9 @@ class ProfileCard extends StatelessWidget {
                       width: 4.0, // Thickness of the border
                     ),
                   ),
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     radius: 50, // Original size of the profile image
-                    backgroundImage: const NetworkImage(
+                    backgroundImage: NetworkImage(
                       'https://randomuser.me/api/portraits/men/1.jpg',
                     ),
                     backgroundColor:
@@ -48,9 +67,9 @@ class ProfileCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          const Text(
-            'Gustavo Lipshutz',
-            style: TextStyle(
+          Text(
+            widget.student.firstName,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -61,12 +80,12 @@ class ProfileCard extends StatelessWidget {
             children: [
               Icon(Icons.check_circle, color: Colors.green),
               SizedBox(width: 4),
-              Text('Open to work'),
+              Text("Student"),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Text(
-            'UI/UX Designer, Web Design, Mobile App Design',
+            widget.student.headline,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16,
@@ -77,5 +96,6 @@ class ProfileCard extends StatelessWidget {
         ],
       ),
     );
+    ;
   }
 }

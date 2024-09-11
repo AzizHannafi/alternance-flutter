@@ -16,9 +16,9 @@ class ReusableSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(
-        maxHeight: 300, // Set a maximum height for the education section
-      ),
+      // constraints: const BoxConstraints(
+      //   maxHeight: 190, // Set a maximum height for the education section
+      // ),
       padding: const EdgeInsets.all(25.0),
       decoration: BoxDecoration(
         color: Colors.white,

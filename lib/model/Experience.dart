@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 class Experience {
   final int id;
   final String jobTitle;
@@ -31,4 +28,24 @@ class Experience {
     required this.createdAt,
     required this.updatedAt,
   });
+
+  factory Experience.fromJson(Map<String, dynamic> json) {
+    return Experience(
+      id: json['id'],
+      jobTitle: json['jobTitle'],
+      employmentType: json['employmentType'],
+      companyName: json['companyName'],
+      location: json['location'],
+      locationType: json['locationType'],
+      currentlyWorking: json['currentlyWorking'],
+      startDate: DateTime.parse(json['startDate']),
+      endDate: json['endDate'] != null
+          ? DateTime.parse(json['endDate'])
+          : DateTime.now(),
+      description: json['description'],
+      studentId: json['studentId'],
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
+    );
+  }
 }

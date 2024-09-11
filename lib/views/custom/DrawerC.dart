@@ -13,6 +13,7 @@ class Drawerc extends StatefulWidget {
 
 class _DrawercState extends State<Drawerc> {
   String _email = '';
+  String _uername = '';
   int? _selectedIndex; // Track selected index
 
   @override
@@ -25,6 +26,7 @@ class _DrawercState extends State<Drawerc> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _email = prefs.getString('email') ?? 'No email found';
+      _uername = prefs.getString('userName') ?? 'No userName found';
     });
   }
 
@@ -65,9 +67,9 @@ class _DrawercState extends State<Drawerc> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text(
-                        "Aziz Hannafi",
-                        style: TextStyle(
+                      Text(
+                        _uername,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),

@@ -1,5 +1,6 @@
 import 'package:alternance_flutter/service/ApiClient.dart';
 import 'package:dio/dio.dart';
+import 'package:alternance_flutter/utils/JwtUtils.dart'; 
 
 class AuthService {
   final ApiClient _apiClient = ApiClient();
@@ -16,6 +17,7 @@ class AuthService {
 
       if (response.statusCode == 200) {
         final token = response.data['token'];
+        JwtUtils.decodeToken(token);
         return token;
       } else {
         print('Error: ${response.statusCode}');
