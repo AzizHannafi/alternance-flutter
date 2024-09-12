@@ -1,5 +1,6 @@
 import 'package:alternance_flutter/model/Certificate.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
+import 'package:alternance_flutter/views/certificate/CertificateDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // For date formatting
 
@@ -30,12 +31,30 @@ class CertificateList extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    certificate.certificateName,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        certificate.certificateName,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          color: ColorsUtils.primaryGreen,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Certificatedetails(
+                              certificate: certificate,
+                            ),
+                          ));
+                        },
+                      )
+                    ],
                   ),
                   const SizedBox(height: 4),
                   Text(

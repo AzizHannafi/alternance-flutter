@@ -22,4 +22,23 @@ class Educationservice {
       throw Exception('Failed to load education: $e');
     }
   }
+
+  // Update education details
+  Future<Education> updateEducation(Education education) async {
+    try {
+      final response = await _apiClient.dio.put(
+        "/api/educations/${education.id}",
+        data: education.toJson(), // Convert education object to JSON
+      );
+
+      if (response.statusCode == 200) {
+        // Return updated education object
+        return Education.fromJson(response.data['updatedEducation']);
+      } else {
+        throw Exception('Failed to update education');
+      }
+    } catch (e) {
+      throw Exception('Failed to update education: $e');
+    }
+  }
 }

@@ -22,4 +22,21 @@ class Certificateservice {
       throw Exception('Failed to load certificates: $e');
     }
   }
+
+  Future<Certificate> updateCertificate(Certificate certificate) async {
+    try {
+      final response = await _apiClient.dio.put(
+        "/api/certificates/${certificate.id}",
+        data: certificate.toJson(), // Convert the certificate to JSON
+      );
+
+      if (response.statusCode == 200) {
+        return Certificate.fromJson(response.data["updatedCertificate"]);
+      } else {
+        throw Exception('Failed to update certificate');
+      }
+    } catch (e) {
+      throw Exception('Failed to update certificate: $e');
+    }
+  }
 }

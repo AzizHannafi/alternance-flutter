@@ -1,12 +1,13 @@
-import 'package:alternance_flutter/model/Education.dart';
+import 'package:alternance_flutter/model/Experience.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
+import 'package:alternance_flutter/views/experience/ExperienceDetails.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // For date formatting
+import 'package:intl/intl.dart';
 
-class EducationList extends StatelessWidget {
-  final List<Education> educationList;
+class ExperienceList extends StatelessWidget {
+  final List<Experience> experienceList;
 
-  const EducationList({Key? key, required this.educationList})
+  const ExperienceList({Key? key, required this.experienceList})
       : super(key: key);
 
   @override
@@ -15,9 +16,9 @@ class EducationList extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(maxWidth: 400),
         child: ListView.builder(
-          itemCount: educationList.length,
+          itemCount: experienceList.length,
           itemBuilder: (BuildContext context, int index) {
-            final education = educationList[index];
+            final experience = experienceList[index];
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 8.0),
               decoration: BoxDecoration(
@@ -30,38 +31,56 @@ class EducationList extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    education.school,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        experience.jobTitle,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.edit,
+                          color: ColorsUtils.primaryGreen,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Experiencedetails(
+                              experience: experience,
+                            ),
+                          ));
+                        },
+                      )
+                    ],
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${education.degree} in ${education.fieldOfStudy}',
+                    '${experience.companyName}',
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 14),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${education.location} (${education.locationType})',
+                    '${experience.location} (${experience.locationType})',
                     style: const TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'From: ${DateFormat.yMMMd().format(education.startDate)} To: ${DateFormat.yMMMd().format(education.endDate)}',
+                    'From: ${DateFormat.yMMMd().format(experience.startDate)} To: ${DateFormat.yMMMd().format(experience.endDate)}',
                     style: const TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Grade: ${education.grade}',
+                    'Type: ${experience.employmentType}',
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 12),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    education.description,
+                    experience.description,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],

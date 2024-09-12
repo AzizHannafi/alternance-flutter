@@ -34,4 +34,18 @@ class Certificate {
       updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'certificateName': certificateName,
+      'organizationName': organizationName,
+      'certificateDate': certificateDate.toIso8601String(),
+      'certificateLink': certificateLink,
+      'description': description,
+      'studentId': studentId,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
+    };
+  }
 }

@@ -46,4 +46,22 @@ class Education {
       updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'school': school,
+      'degree': degree,
+      'fieldOfStudy': fieldOfStudy,
+      'location': location,
+      'locationType': locationType,
+      'startDate': startDate.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
+      'grade': grade,
+      'description': description,
+      'studentId': studentId,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
+    };
+  }
 }

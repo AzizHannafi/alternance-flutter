@@ -22,4 +22,21 @@ class Experienceservice {
       throw Exception('Failed to load experiences: $e');
     }
   }
+
+  Future<Experience> updateExperience(Experience experience) async {
+    try {
+      final response = await _apiClient.dio.put(
+        "/api/experiences/${experience.id}",
+        data: experience.toJson(), // Convert the experience to JSON
+      );
+
+      if (response.statusCode == 200) {
+        return Experience.fromJson(response.data["updatedExperience"]);
+      } else {
+        throw Exception('Failed to update experience');
+      }
+    } catch (e) {
+      throw Exception('Failed to update experience: $e');
+    }
+  }
 }

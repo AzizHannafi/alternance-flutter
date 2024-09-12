@@ -48,4 +48,22 @@ class Experience {
       updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'jobTitle': jobTitle,
+      'employmentType': employmentType,
+      'companyName': companyName,
+      'location': location,
+      'locationType': locationType,
+      'currentlyWorking': currentlyWorking,
+      'startDate': startDate.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
+      'description': description,
+      'studentId': studentId,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
+    };
+  }
 }
