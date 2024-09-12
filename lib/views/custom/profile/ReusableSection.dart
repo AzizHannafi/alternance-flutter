@@ -4,21 +4,21 @@ import 'package:flutter/material.dart';
 class ReusableSection extends StatelessWidget {
   final String title;
   final Widget content;
-  final VoidCallback? onEdit;
+  final double maxHeight;
 
   const ReusableSection({
     super.key,
     required this.title,
     required this.content,
-    this.onEdit,
+    required this.maxHeight,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // constraints: const BoxConstraints(
-      //   maxHeight: 190, // Set a maximum height for the education section
-      // ),
+      constraints: BoxConstraints(
+        maxHeight: maxHeight, // Set a maximum height for the education section
+      ),
       padding: const EdgeInsets.all(25.0),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -40,18 +40,12 @@ class ReusableSection extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                   color: ColorsUtils.primaryBleu,
                 ),
               ),
-              if (onEdit != null)
-                IconButton(
-                  onPressed: onEdit,
-                  icon: const Icon(Icons.edit),
-                  color: ColorsUtils.primaryGreen,
-                ),
             ],
           ),
           const SizedBox(height: 8.0),

@@ -1,5 +1,6 @@
 import 'package:alternance_flutter/model/Certificate.dart';
 import 'package:alternance_flutter/model/Experience.dart';
+import 'package:alternance_flutter/model/Student.dart';
 import 'package:alternance_flutter/model/UserProfile.dart';
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/service/certificate/CertificateService.dart';
@@ -9,8 +10,9 @@ import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
 import 'package:alternance_flutter/views/CertificateList.dart';
 import 'package:alternance_flutter/views/EducationList.dart';
 import 'package:alternance_flutter/views/ExperienceList.dart';
+import 'package:alternance_flutter/views/custom/profile/ProfileReusableSection.dart';
 import 'package:flutter/material.dart';
-import 'package:alternance_flutter/views/ReusableSection.dart';
+import 'package:alternance_flutter/views/custom/profile/ReusableSection.dart';
 import 'package:alternance_flutter/views/custom/profile/ProfileCard.dart';
 import 'package:alternance_flutter/model/Education.dart';
 
@@ -114,35 +116,27 @@ class _ProfileState extends State<Profile> {
                   children: [
                     ProfileCard(profile: profile),
                     const SizedBox(height: 16.0),
+
                     Container(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.2,
-                      ),
-                      child: ReusableSection(
+                      child: Profilereusablesection(
                         title: 'About Me',
-                        content: Text(
-                          profile.about,
-                          style: const TextStyle(fontSize: 14.0),
-                        ),
-                        onEdit: () {
-                          // Add your edit functionality here
-                        },
+                        content: Text(profile.about!),
+                        profile: profile,
+                        maxHeight: MediaQuery.of(context).size.height * 0.17,
+                        isAbout: true,
                       ),
                     ),
                     const SizedBox(height: 16.0),
                     Container(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.2,
-                      ),
-                      child: ReusableSection(
+                      child: Profilereusablesection(
                         title: 'Contact Information',
+                        isAbout: false,
+                        profile: profile,
                         content: Text(
-                          profile.contactInfo,
+                          profile.contactInfo!,
                           style: const TextStyle(fontSize: 14.0),
                         ),
-                        onEdit: () {
-                          // Add your edit functionality here
-                        },
+                        maxHeight: MediaQuery.of(context).size.height * 0.15,
                       ),
                     ),
                     const SizedBox(height: 16.0),
@@ -176,9 +170,7 @@ class _ProfileState extends State<Profile> {
                               title: 'Education',
                               content:
                                   EducationList(educationList: educationList),
-                              onEdit: () {
-                                // Add your edit functionality here
-                              },
+                              maxHeight: 300,
                             ),
                           );
                         },
@@ -204,17 +196,12 @@ class _ProfileState extends State<Profile> {
                           final experienceList = experienceSnapshot.data!;
 
                           return Container(
-                            constraints: BoxConstraints(
-                              maxHeight:
-                                  MediaQuery.of(context).size.height * 0.3,
-                            ),
                             child: ReusableSection(
                               title: 'Experience',
                               content: ExperienceList(
                                   experienceList: experienceList),
-                              onEdit: () {
-                                // Add your edit functionality here
-                              },
+                              maxHeight:
+                                  MediaQuery.of(context).size.height * 0.3,
                             ),
                           );
                         },
@@ -240,18 +227,12 @@ class _ProfileState extends State<Profile> {
                           final certificateList = certificateSnapshot.data!;
 
                           return Container(
-                            constraints: BoxConstraints(
-                              maxHeight:
-                                  MediaQuery.of(context).size.height * 0.3,
-                            ),
                             child: ReusableSection(
                               title: 'Certificates',
                               content: CertificateList(
-                                  certificateList:
-                                      certificateList), // You need to implement CertificateList
-                              onEdit: () {
-                                // Add your edit functionality here
-                              },
+                                  certificateList: certificateList),
+                              maxHeight:
+                                  MediaQuery.of(context).size.height * 0.3,
                             ),
                           );
                         },

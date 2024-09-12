@@ -1,5 +1,4 @@
 import 'package:alternance_flutter/model/Certificate.dart';
-import 'package:alternance_flutter/model/Experience.dart';
 import 'package:alternance_flutter/service/ApiClient.dart';
 
 class Certificateservice {

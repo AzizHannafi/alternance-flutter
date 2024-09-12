@@ -1,4 +1,3 @@
-import 'package:alternance_flutter/model/Offers.dart';
 import 'package:alternance_flutter/model/Student.dart';
 import 'package:alternance_flutter/service/ApiClient.dart';
 
@@ -17,6 +16,27 @@ class Studentservice {
       }
     } catch (e) {
       throw Exception('Failed to load profile: $e');
+    }
+  }
+
+  Future<Student> updateProfile(int studentId, Student updatedStudent) async {
+    try {
+      // Convert the updated student to JSON
+      final studentJson = updatedStudent.toJson();
+
+      // Make the PUT request and pass the student data as the body
+      final response = await _apiClient.dio.put(
+        "/api/students/$studentId",
+        data: studentJson, // Pass the student data in the request body
+      );
+
+      if (response.statusCode == 200) {
+        return Student.fromJson(response.data["updatedStudent"]);
+      } else {
+        throw Exception('Failed to update profile');
+      }
+    } catch (e) {
+      throw Exception('Failed to update profile: $e');
     }
   }
 }

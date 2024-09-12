@@ -16,4 +16,16 @@ class DateUtilsC {
       return 'Invalid date'; // Handle invalid date format
     }
   }
+
+  static String formaToUtctDateString(String dateString) {
+    try {
+      // Parse the input date string in the format "yyyy/MM/dd"
+      DateTime dateTime = DateFormat('yyyy/MM/dd').parse(dateString);
+
+      // Format the date to "yyyy-MM-ddTHH:mm:ss.sssZ" (ISO 8601)
+      return dateTime.toUtc().toIso8601String();
+    } catch (e) {
+      return 'Invalid date'; // Handle invalid date format
+    }
+  }
 }
