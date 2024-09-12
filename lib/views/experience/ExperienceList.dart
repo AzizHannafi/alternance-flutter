@@ -1,5 +1,6 @@
 import 'package:alternance_flutter/model/Experience.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
+import 'package:alternance_flutter/views/experience/AddExperience.dart';
 import 'package:alternance_flutter/views/experience/ExperienceDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -32,28 +33,58 @@ class ExperienceList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        experience.jobTitle,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.edit,
-                          color: ColorsUtils.primaryGreen,
+                      // Title taking up 75% of the row
+                      Expanded(
+                        flex: 3, // 75% width for the title
+                        child: Text(
+                          experience.jobTitle,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Experiencedetails(
-                              experience: experience,
+                      ),
+
+                      // Spacer between the title and the icons
+                      Spacer(),
+
+                      // Row for the edit and add icons aligned to the right
+                      Row(
+                        mainAxisSize: MainAxisSize
+                            .min, // Takes minimal width for the icons
+                        children: [
+                          // Edit Icon
+                          IconButton(
+                            icon: const Icon(
+                              Icons.edit,
+                              color: ColorsUtils.primaryGreen,
                             ),
-                          ));
-                        },
-                      )
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Experiencedetails(
+                                  experience: experience,
+                                ),
+                              ));
+                            },
+                          ),
+
+                          // Add Icon
+                          IconButton(
+                            icon: const Icon(
+                              Icons.add,
+                              color: ColorsUtils.primaryGreen,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => AddExperience(),
+                              ));
+                            },
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),

@@ -32,28 +32,58 @@ class CertificateList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        certificate.certificateName,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.edit,
-                          color: ColorsUtils.primaryGreen,
+                      // Title taking up 75% of the row
+                      Expanded(
+                        flex: 3, // 75% width for the title
+                        child: Text(
+                          certificate.certificateName,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Certificatedetails(
-                              certificate: certificate,
+                      ),
+
+                      // Spacer between the title and the edit icon
+                      Spacer(),
+
+                      // Edit Icon in a row, aligned to the right
+                      Row(
+                        mainAxisSize: MainAxisSize
+                            .min, // Takes minimal width required by the icon
+                        children: [
+                          // Edit Icon
+                          IconButton(
+                            icon: Icon(
+                              Icons.edit,
+                              color: ColorsUtils.primaryGreen,
                             ),
-                          ));
-                        },
-                      )
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Certificatedetails(
+                                  certificate: certificate,
+                                ),
+                              ));
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.add,
+                              color: ColorsUtils.primaryGreen,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Certificatedetails(
+                                  certificate: certificate,
+                                ),
+                              ));
+                            },
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),

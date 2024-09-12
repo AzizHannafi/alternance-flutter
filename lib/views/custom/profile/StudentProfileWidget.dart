@@ -182,10 +182,6 @@ class _StudentProfileWidgetState extends State<StudentProfileWidget> {
                 ],
               ),
               SizedBox(height: 16),
-              _buildEditableField(
-                textController: _nameController,
-                label: '${widget.student.firstName} ${widget.student.lastName}',
-              ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -193,6 +189,10 @@ class _StudentProfileWidgetState extends State<StudentProfileWidget> {
                   SizedBox(width: 4),
                   Text("Student"),
                 ],
+              ),
+              _buildEditableField(
+                textController: _nameController,
+                label: '${widget.student.firstName} ${widget.student.lastName}',
               ),
               _buildEditableField(
                 textController: _headlineController,

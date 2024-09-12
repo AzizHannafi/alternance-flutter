@@ -32,28 +32,59 @@ class EducationList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        education.school,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.edit,
-                          color: ColorsUtils.primaryGreen,
+                      // Title taking up 75% of the row
+                      Expanded(
+                        flex: 3, // 75% width for the title
+                        child: Text(
+                          education.school,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Educationdetails(
-                              education: education,
+                      ),
+
+                      // Spacer between the title and icons
+                      Spacer(),
+
+                      // Icon buttons in a row, aligned to the right
+                      Row(
+                        mainAxisSize: MainAxisSize
+                            .min, // Takes minimal width required by icons
+                        children: [
+                          // Edit Icon
+                          IconButton(
+                            icon: const Icon(
+                              Icons.edit,
+                              color: ColorsUtils.primaryGreen,
                             ),
-                          ));
-                        },
-                      )
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Educationdetails(
+                                  education: education,
+                                ),
+                              ));
+                            },
+                          ),
+                          // Add Icon
+                          IconButton(
+                            icon: const Icon(
+                              Icons.add,
+                              color: ColorsUtils.primaryGreen,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Educationdetails(
+                                  education: education,
+                                ),
+                              ));
+                            },
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),

@@ -123,7 +123,9 @@ class _ExperiencedetailsState extends State<Experiencedetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit Experience Details"),
+        title: const Text("Edit Experience Details",
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
