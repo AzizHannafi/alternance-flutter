@@ -5,12 +5,14 @@ class ReusableSection extends StatelessWidget {
   final String title;
   final Widget content;
   final double maxHeight;
+  final Widget addElement;
 
   const ReusableSection({
     super.key,
     required this.title,
     required this.content,
     required this.maxHeight,
+    required this.addElement,
   });
 
   @override
@@ -45,6 +47,18 @@ class ReusableSection extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: ColorsUtils.primaryBleu,
                 ),
+              ),
+              // Add Icon
+              IconButton(
+                icon: const Icon(
+                  Icons.add,
+                  color: ColorsUtils.primaryGreen,
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => addElement,
+                  ));
+                },
               ),
             ],
           ),

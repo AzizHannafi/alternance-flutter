@@ -39,4 +39,23 @@ class Experienceservice {
       throw Exception('Failed to update experience: $e');
     }
   }
+
+  Future<Experience> addExperience(Experience newExperience) async {
+    try {
+      final response = await _apiClient.dio.post(
+        "/api/experiences",
+        data: newExperience.toJson(), // Convert the experience to JSON
+      );
+
+      if (response.statusCode == 201) {
+        // Assuming the response contains the newly created experience
+        print('res add exp : ${response.data["newExperience"]}');
+        return Experience.fromJson(response.data["newExperience"]);
+      } else {
+        throw Exception('Failed to add experience');
+      }
+    } catch (e) {
+      throw Exception('Failed to add experience: $e');
+    }
+  }
 }

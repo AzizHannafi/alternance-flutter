@@ -22,6 +22,12 @@ class _ExperiencedetailsState extends State<Experiencedetails> {
   late TextEditingController employmentTypeController;
   late DateTime startDate;
   late DateTime endDate;
+  String? selectedEmploymentType;
+  bool isCurrentlyWorking = false; // For the checkbox
+  String? selectedLocationType;
+
+  final List<String> employmentType = ['Full time', 'Half time', 'Freelance'];
+  final List<String> locationType = ['On site', 'Remote', 'Hybrid'];
 
   @override
   void initState() {
@@ -38,7 +44,7 @@ class _ExperiencedetailsState extends State<Experiencedetails> {
     descriptionController =
         TextEditingController(text: widget.experience.description);
     startDate = widget.experience.startDate;
-    endDate = widget.experience.endDate;
+    endDate = widget.experience.endDate ?? DateTime.now();
   }
 
   @override
@@ -81,10 +87,10 @@ class _ExperiencedetailsState extends State<Experiencedetails> {
         jobTitle: jobTitleController.text,
         companyName: companyNameController.text,
         location: locationController.text,
-        locationType: widget.experience.locationType,
+        locationType: widget.experience.locationType.toLowerCase(),
         startDate: startDate,
         endDate: endDate,
-        employmentType: employmentTypeController.text,
+        employmentType: employmentTypeController.text.toLowerCase(),
         description: descriptionController.text,
         createdAt: widget.experience.createdAt,
         updatedAt: DateTime.now(), // Update the updatedAt field
@@ -157,6 +163,33 @@ class _ExperiencedetailsState extends State<Experiencedetails> {
                   },
                 ),
                 const SizedBox(height: 15),
+
+                // Employment Type Dropdown
+                DropdownButtonFormField<String>(
+                  value: selectedEmploymentType,
+                  items: employmentType.map((String type) {
+                    return DropdownMenuItem<String>(
+                      value: type,
+                      child: Text(type),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedEmploymentType = newValue;
+                    });
+                  },
+                  decoration: const InputDecoration(
+                    labelText: "Employment Type",
+                    prefixIcon: Icon(Icons.category,
+                        color: ColorsUtils.primaryGreen, size: 20),
+                    border: OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: ColorsUtils.primaryGreen),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+
                 // Company Name
                 TextFormField(
                   controller: companyNameController,
@@ -197,6 +230,26 @@ class _ExperiencedetailsState extends State<Experiencedetails> {
                   },
                 ),
                 const SizedBox(height: 15),
+
+                // "Currently Working" Checkbox
+                CheckboxListTile(
+                  title: const Text('I am currently working here'),
+                  value: isCurrentlyWorking,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isCurrentlyWorking = value ?? false;
+                      if (isCurrentlyWorking) {
+                        endDate = DateTime
+                            .now(); // Set end date to null if currently working
+                      } else {
+                        endDate = DateTime
+                            .now(); // Set default end date if not currently working
+                      }
+                    });
+                  },
+                  controlAffinity: ListTileControlAffinity.leading,
+                  activeColor: ColorsUtils.primaryGreen,
+                ),
                 // Start and End Date
                 Row(
                   children: [
@@ -221,7 +274,9 @@ class _ExperiencedetailsState extends State<Experiencedetails> {
                     const SizedBox(width: 20),
                     Expanded(
                       child: InkWell(
-                        onTap: () => _selectDate(context, false),
+                        onTap: isCurrentlyWorking
+                            ? null
+                            : () => _selectDate(context, false),
                         child: InputDecorator(
                           decoration: const InputDecoration(
                             labelText: "End Date",
@@ -232,19 +287,41 @@ class _ExperiencedetailsState extends State<Experiencedetails> {
                               borderSide:
                                   BorderSide(color: ColorsUtils.primaryGreen),
                             ),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
                           ),
-                          child: Text(DateFormat.yMMMd().format(endDate)),
+                          child: Text(
+                            isCurrentlyWorking
+                                ? 'Present'
+                                : DateFormat.yMMMd()
+                                    .format(endDate ?? DateTime.now()),
+                            style: TextStyle(
+                              color: isCurrentlyWorking ? Colors.grey : null,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
                 const SizedBox(height: 15),
-                // Employment Type
-                TextFormField(
-                  controller: employmentTypeController,
+                // Location Type
+                DropdownButtonFormField<String>(
+                  value: selectedLocationType,
+                  items: locationType.map((String type) {
+                    return DropdownMenuItem<String>(
+                      value: type,
+                      child: Text(type),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedLocationType = newValue;
+                    });
+                  },
                   decoration: const InputDecoration(
-                    labelText: "Employment Type",
+                    labelText: "Location Type",
                     prefixIcon: Icon(Icons.category,
                         color: ColorsUtils.primaryGreen, size: 20),
                     border: OutlineInputBorder(),
@@ -252,14 +329,9 @@ class _ExperiencedetailsState extends State<Experiencedetails> {
                       borderSide: BorderSide(color: ColorsUtils.primaryGreen),
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the employment type';
-                    }
-                    return null;
-                  },
                 ),
                 const SizedBox(height: 15),
+
                 // Description
                 TextFormField(
                   controller: descriptionController,

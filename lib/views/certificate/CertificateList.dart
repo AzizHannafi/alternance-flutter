@@ -69,19 +69,6 @@ class CertificateList extends StatelessWidget {
                               ));
                             },
                           ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.add,
-                              color: ColorsUtils.primaryGreen,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Certificatedetails(
-                                  certificate: certificate,
-                                ),
-                              ));
-                            },
-                          ),
                         ],
                       ),
                     ],

@@ -70,19 +70,6 @@ class ExperienceList extends StatelessWidget {
                               ));
                             },
                           ),
-
-                          // Add Icon
-                          IconButton(
-                            icon: const Icon(
-                              Icons.add,
-                              color: ColorsUtils.primaryGreen,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => AddExperience(),
-                              ));
-                            },
-                          ),
                         ],
                       ),
                     ],
@@ -100,7 +87,7 @@ class ExperienceList extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'From: ${DateFormat.yMMMd().format(experience.startDate)} To: ${DateFormat.yMMMd().format(experience.endDate)}',
+                    'From: ${DateFormat.yMMMd().format(experience.startDate)} To: ${experience.endDate != null ? DateFormat.yMMMd().format(experience.endDate!) : 'Present'}',
                     style: const TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                   const SizedBox(height: 4),

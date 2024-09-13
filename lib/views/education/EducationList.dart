@@ -70,19 +70,6 @@ class EducationList extends StatelessWidget {
                             },
                           ),
                           // Add Icon
-                          IconButton(
-                            icon: const Icon(
-                              Icons.add,
-                              color: ColorsUtils.primaryGreen,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Educationdetails(
-                                  education: education,
-                                ),
-                              ));
-                            },
-                          ),
                         ],
                       ),
                     ],

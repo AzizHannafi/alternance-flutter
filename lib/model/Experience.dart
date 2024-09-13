@@ -1,5 +1,5 @@
 class Experience {
-  final int id;
+  int? id;
   final String jobTitle;
   final String employmentType;
   final String companyName;
@@ -7,14 +7,14 @@ class Experience {
   final String locationType;
   final bool currentlyWorking;
   final DateTime startDate;
-  final DateTime endDate;
+  DateTime? endDate;
   final String description;
   final int studentId;
   final DateTime createdAt;
   final DateTime updatedAt;
 
   Experience({
-    required this.id,
+    this.id,
     required this.jobTitle,
     required this.employmentType,
     required this.companyName,
@@ -22,7 +22,7 @@ class Experience {
     required this.locationType,
     required this.currentlyWorking,
     required this.startDate,
-    required this.endDate,
+    this.endDate,
     required this.description,
     required this.studentId,
     required this.createdAt,
@@ -39,9 +39,7 @@ class Experience {
       locationType: json['locationType'],
       currentlyWorking: json['currentlyWorking'],
       startDate: DateTime.parse(json['startDate']),
-      endDate: json['endDate'] != null
-          ? DateTime.parse(json['endDate'])
-          : DateTime.now(),
+      endDate: DateTime.parse(json['endDate']),
       description: json['description'],
       studentId: json['studentId'],
       createdAt: DateTime.parse(json['createdAt']),
@@ -59,7 +57,7 @@ class Experience {
       'locationType': locationType,
       'currentlyWorking': currentlyWorking,
       'startDate': startDate.toIso8601String(),
-      'endDate': endDate.toIso8601String(),
+      'endDate': endDate?.toIso8601String(),
       'description': description,
       'studentId': studentId,
       'createdAt': createdAt.toIso8601String(),

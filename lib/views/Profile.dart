@@ -9,6 +9,7 @@ import 'package:alternance_flutter/service/experience/ExperienceService.dart';
 import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
 import 'package:alternance_flutter/views/certificate/CertificateList.dart';
 import 'package:alternance_flutter/views/education/EducationList.dart';
+import 'package:alternance_flutter/views/experience/AddExperience.dart';
 import 'package:alternance_flutter/views/experience/ExperienceList.dart';
 import 'package:alternance_flutter/views/custom/profile/ProfileReusableSection.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class _ProfileState extends State<Profile> {
   late Future<List<Experience>> _experienceFuture;
   late Future<List<Certificate>> _certificateFuture;
   String _role = "";
+  int profileId = 0;
   late dynamic _service;
 
   Future<void> _initializePreferences() async {
@@ -53,6 +55,7 @@ class _ProfileState extends State<Profile> {
       // Fetch data after fetching the profile
       _profileFuture.then((profile) {
         setState(() {
+          profileId = profile.id;
           _educationFuture = Educationservice().fetchEducationById(profile.id);
           _experienceFuture =
               Experienceservice().fetchExperienceById(profile.id);
@@ -171,6 +174,7 @@ class _ProfileState extends State<Profile> {
                               content:
                                   EducationList(educationList: educationList),
                               maxHeight: 300,
+                              addElement: AddExperience(studentId: profileId),
                             ),
                           );
                         },
@@ -202,6 +206,7 @@ class _ProfileState extends State<Profile> {
                                   experienceList: experienceList),
                               maxHeight:
                                   MediaQuery.of(context).size.height * 0.3,
+                              addElement: AddExperience(studentId: profileId),
                             ),
                           );
                         },
@@ -233,6 +238,7 @@ class _ProfileState extends State<Profile> {
                                   certificateList: certificateList),
                               maxHeight:
                                   MediaQuery.of(context).size.height * 0.3,
+                              addElement: AddExperience(studentId: profileId),
                             ),
                           );
                         },
