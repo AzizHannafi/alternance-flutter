@@ -7,7 +7,9 @@ import 'package:alternance_flutter/service/certificate/CertificateService.dart';
 import 'package:alternance_flutter/service/education/EducationService.dart';
 import 'package:alternance_flutter/service/experience/ExperienceService.dart';
 import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
+import 'package:alternance_flutter/views/certificate/AddCertificate.dart';
 import 'package:alternance_flutter/views/certificate/CertificateList.dart';
+import 'package:alternance_flutter/views/education/AddEducation.dart';
 import 'package:alternance_flutter/views/education/EducationList.dart';
 import 'package:alternance_flutter/views/experience/AddExperience.dart';
 import 'package:alternance_flutter/views/experience/ExperienceList.dart';
@@ -174,7 +176,7 @@ class _ProfileState extends State<Profile> {
                               content:
                                   EducationList(educationList: educationList),
                               maxHeight: 300,
-                              addElement: AddExperience(studentId: profileId),
+                              addElement: Addeducation(studentId: profileId),
                             ),
                           );
                         },
@@ -238,7 +240,7 @@ class _ProfileState extends State<Profile> {
                                   certificateList: certificateList),
                               maxHeight:
                                   MediaQuery.of(context).size.height * 0.3,
-                              addElement: AddExperience(studentId: profileId),
+                              addElement: Addcertificate(studentId: profileId),
                             ),
                           );
                         },

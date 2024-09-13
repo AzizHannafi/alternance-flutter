@@ -1,5 +1,5 @@
 class Education {
-  final int id;
+  int? id;
   final String school;
   final String degree;
   final String fieldOfStudy;
@@ -14,7 +14,7 @@ class Education {
   final DateTime updatedAt;
 
   Education({
-    required this.id,
+    this.id,
     required this.school,
     required this.degree,
     required this.fieldOfStudy,

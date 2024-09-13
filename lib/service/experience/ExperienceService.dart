@@ -58,4 +58,21 @@ class Experienceservice {
       throw Exception('Failed to add experience: $e');
     }
   }
+
+  Future<String> deleteExperience(int experienceId) async {
+    try {
+      final response = await _apiClient.dio.delete(
+        "/api/experiences/$experienceId",
+      );
+
+      if (response.statusCode == 200) {
+        print('res add exp : ${response.data["deletedExperience"]["message"]}');
+        return response.data["deletedExperience"]["message"];
+      } else {
+        throw Exception('Failed to Delete Experience');
+      }
+    } catch (e) {
+      throw Exception('Failed to Delete Experience: $e');
+    }
+  }
 }

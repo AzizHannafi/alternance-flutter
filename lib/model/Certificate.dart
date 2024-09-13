@@ -1,5 +1,5 @@
 class Certificate {
-  final int id;
+  int? id;
   final String certificateName;
   final DateTime certificateDate;
   final String organizationName;
@@ -10,7 +10,7 @@ class Certificate {
   final DateTime updatedAt;
 
   Certificate({
-    required this.id,
+    this.id,
     required this.certificateName,
     required this.certificateDate,
     required this.organizationName,

@@ -39,4 +39,41 @@ class Certificateservice {
       throw Exception('Failed to update certificate: $e');
     }
   }
+
+  Future<Certificate> addCertificate(Certificate certificate) async {
+    try {
+      final response = await _apiClient.dio.post(
+        "/api/certificates",
+        data: certificate.toJson(), // Convert the certificates to JSON
+      );
+
+      if (response.statusCode == 201) {
+        // Assuming the response contains the newly created experience
+        print('res add exp : ${response.data["newCertificate"]}');
+        return Certificate.fromJson(response.data["newCertificate"]);
+      } else {
+        throw Exception('Failed to add certificate');
+      }
+    } catch (e) {
+      throw Exception('Failed to add certificate: $e');
+    }
+  }
+
+  Future<String> deleteCertificate(int certificateId) async {
+    try {
+      final response = await _apiClient.dio.delete(
+        "/api/certificates/$certificateId",
+      );
+
+      if (response.statusCode == 200) {
+        print(
+            'res add exp : ${response.data["deletedCertificate"]["message"]}');
+        return response.data["deletedCertificate"]["message"];
+      } else {
+        throw Exception('Failed to  delete Certificate');
+      }
+    } catch (e) {
+      throw Exception('Failed to  delete Certificate: $e');
+    }
+  }
 }
