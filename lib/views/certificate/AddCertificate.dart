@@ -114,8 +114,7 @@ class _AddcertificateState extends State<Addcertificate> {
             style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
+      body: Center(
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(

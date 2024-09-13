@@ -131,8 +131,7 @@ class _AddeducationState extends State<Addeducation> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
+      body: Center(
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
