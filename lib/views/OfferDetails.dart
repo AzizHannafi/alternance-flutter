@@ -1,6 +1,7 @@
 import 'package:alternance_flutter/model/Offer.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/DateUtilsC.dart';
+import 'package:alternance_flutter/views/JobApply.dart';
 import 'package:flutter/material.dart';
 
 class OfferDetails extends StatefulWidget {
@@ -395,7 +396,13 @@ class _OfferDetailsState extends State<OfferDetails> {
                   height: 50,
                   child: FloatingActionButton(
                     onPressed: () {
-                      // Handle apply button press
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Jobapply(
+                              offerId: widget.offer!.id,
+                            ),
+                          ));
                     },
                     backgroundColor: ColorsUtils.primaryGreen,
                     child: const Text(

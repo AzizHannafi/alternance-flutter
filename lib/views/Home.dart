@@ -77,7 +77,7 @@ class _HomeState extends State<Home> {
     return _role.contains("student")
         ? SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(right: 10, left: 10),
+              padding: const EdgeInsets.only(right: 10, left: 10),
               color: ColorsUtils.lightGray,
               child: Column(
                 children: [

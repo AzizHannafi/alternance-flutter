@@ -40,6 +40,7 @@ dependencies:
   json_annotation: ^4.9.0
   intl: ^0.19.0
   jwt_decoder: ^2.0.1
+  file_picker: ^8.1.2
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,7 @@ flutter:
     - assets/company.svg
     - assets/student.svg
     - assets/university.svg
+    - assets/upload.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
