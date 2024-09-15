@@ -6,6 +6,7 @@ import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/service/certificate/CertificateService.dart';
 import 'package:alternance_flutter/service/education/EducationService.dart';
 import 'package:alternance_flutter/service/experience/ExperienceService.dart';
+import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
 import 'package:alternance_flutter/views/certificate/AddCertificate.dart';
 import 'package:alternance_flutter/views/certificate/CertificateList.dart';
@@ -124,11 +125,15 @@ class _ProfileState extends State<Profile> {
 
                     Container(
                       child: Profilereusablesection(
-                        title: 'About Me',
+                        title: 'About',
                         content: Text(profile.about!),
                         profile: profile,
                         maxHeight: MediaQuery.of(context).size.height * 0.17,
                         isAbout: true,
+                        icon: const Icon(
+                          Icons.info_outline,
+                          color: ColorsUtils.primaryBleu,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16.0),
@@ -142,6 +147,10 @@ class _ProfileState extends State<Profile> {
                           style: const TextStyle(fontSize: 14.0),
                         ),
                         maxHeight: MediaQuery.of(context).size.height * 0.15,
+                        icon: const Icon(
+                          Icons.phone_android_sharp,
+                          color: ColorsUtils.primaryBleu,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16.0),

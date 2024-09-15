@@ -70,6 +70,7 @@ flutter:
     - images/hr_male.png
     - images/hr_female.png
     - images/alternance_logo.png
+    - images/logo.png
     - assets/company.svg
     - assets/student.svg
     - assets/university.svg

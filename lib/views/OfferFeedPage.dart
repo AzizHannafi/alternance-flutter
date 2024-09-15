@@ -4,6 +4,7 @@ import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/views/OfferDetails.dart';
 import 'package:alternance_flutter/model/Offers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class OfferFeedPage extends StatefulWidget {
   const OfferFeedPage({super.key});
@@ -102,16 +103,19 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                             );
                           },
                           child: Container(
-                            width: 70,
-                            height: 70,
+                            width: 70, // Keep the container width as 70
+                            height: 70, // Keep the container height as 70
                             decoration: BoxDecoration(
                               color: ColorsUtils.transparentGreen,
                               borderRadius: BorderRadius.circular(50),
-                              image: const DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                  "https://e7.pngegg.com/pngimages/592/963/png-clipart-commercial-building-computer-icons-management-building-building-company.png",
-                                ), // Use the offer's image URL
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: SvgPicture.asset(
+                                'assets/company.svg',
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),

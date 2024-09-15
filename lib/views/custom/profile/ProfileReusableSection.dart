@@ -10,15 +10,16 @@ class Profilereusablesection extends StatefulWidget {
   final UserProfile profile;
   final double maxHeight;
   final bool isAbout;
+  final Icon icon;
 
-  const Profilereusablesection({
-    super.key,
-    required this.title,
-    required this.content,
-    required this.profile,
-    required this.maxHeight,
-    required this.isAbout,
-  });
+  const Profilereusablesection(
+      {super.key,
+      required this.title,
+      required this.content,
+      required this.profile,
+      required this.maxHeight,
+      required this.isAbout,
+      required this.icon});
 
   @override
   _ProfilereusablesectionState createState() => _ProfilereusablesectionState();
@@ -62,17 +63,32 @@ class _ProfilereusablesectionState extends State<Profilereusablesection> {
         height: 30, // Set a specific height to control the size
         child: Padding(
           padding: EdgeInsets.zero, // Remove padding around the TextField
-          child: TextField(
-            controller: textController,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.zero,
-              isDense: true,
-            ),
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.left,
-            maxLines: 5,
-            enabled: _isEditing,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Wrap the Icon with an Expanded widget and give it a flex of 1
+              Expanded(
+                flex: 1, // 1/4 of the Row
+                child: widget.icon,
+              ),
+              // Wrap the TextField with an Expanded widget and give it a flex of 3
+              Expanded(
+                flex: 7, // 3/4 of the Row
+                child: TextField(
+                  controller: textController,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.zero,
+                    isDense: true,
+                  ),
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                  maxLines: 5,
+                  enabled: _isEditing,
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -20,9 +20,9 @@ class Browse extends StatefulWidget {
 class _BrowseState extends State<Browse> {
   int _userId = 0;
   int _selectedIndex = 0;
-
-  final List<Widget> bottomNavPages = const [Home(), Offer(), Saved(), News()];
-  late Widget _currentBody = bottomNavPages[_selectedIndex];
+  List<Widget> bottomNavPages = []; // Initialize with empty list
+  Widget _currentBody =
+      const Center(child: CircularProgressIndicator()); // Default placeholder
 
   @override
   void initState() {
@@ -36,6 +36,7 @@ class _BrowseState extends State<Browse> {
     // Load the user ID after the preferences are initialized
     setState(() {
       _userId = SharedPreferencesUtils.getValue<int>("id") ?? 0;
+      bottomNavPages = [Home(userId: _userId), Offer(), Saved(), News()];
       _currentBody =
           bottomNavPages[_selectedIndex]; // Ensure body is set after init
     });
@@ -68,7 +69,20 @@ class _BrowseState extends State<Browse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Alternance tn')),
+      appBar: AppBar(
+        flexibleSpace: Center(
+          child: Padding(
+            padding: EdgeInsets.only(top: 30),
+            child: Image.asset(
+              'images/alternance_logo.png',
+              height: 30,
+            ),
+          ),
+        ),
+        elevation: 0, // Optional: remove shadow if needed
+        backgroundColor:
+            Colors.transparent, // Optional: make background transparent
+      ),
       drawer: Drawerc(onItemTapped: _onDrawerItemTapped),
       body: _currentBody,
       bottomNavigationBar: BottomNavigationC(

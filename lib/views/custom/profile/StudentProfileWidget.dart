@@ -102,7 +102,6 @@ class _StudentProfileWidgetState extends State<StudentProfileWidget> {
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
       child: SizedBox(
-        width: 200,
         height: 30, // Set a specific height to control the size
         child: Padding(
           padding: EdgeInsets.zero, // Remove padding around the TextField
@@ -171,11 +170,9 @@ class _StudentProfileWidgetState extends State<StudentProfileWidget> {
                       ),
                       child: const CircleAvatar(
                         radius: 50, // Original size of the profile image
-                        backgroundImage: NetworkImage(
-                          'https://randomuser.me/api/portraits/men/1.jpg',
-                        ),
-                        backgroundColor:
-                            Colors.white, // Keep the inner background white
+                        backgroundImage: AssetImage('images/student.png'),
+                        backgroundColor: ColorsUtils
+                            .lightGray, // Keep the inner background white
                       ),
                     ),
                   ),

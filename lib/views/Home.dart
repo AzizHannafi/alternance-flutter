@@ -1,28 +1,98 @@
+import 'package:alternance_flutter/model/UserProfile.dart';
+import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
+import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
+import 'package:alternance_flutter/views/ApplicationCardView.dart';
+import 'package:alternance_flutter/views/ApplicationTable.dart';
 import 'package:alternance_flutter/views/News.dart';
 import 'package:alternance_flutter/views/Offer.dart';
+import 'package:alternance_flutter/views/OfferRecommandation.dart';
 import 'package:alternance_flutter/views/Saved.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final int userId;
+  Home({super.key, required this.userId});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  final List<Widget> pages = const [Offer(), Saved(), News()];
+  String _role = "";
+  late int profileId;
+  late Future<UserProfile> _profileFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializePreferences();
+  }
+
+  Future<void> _initializePreferences() async {
+    try {
+      // Await for SharedPreferences initialization
+      await SharedPreferencesUtils.init();
+
+      // Load the user role after the preferences are initialized
+      _role = SharedPreferencesUtils.getValue<String>("role") ?? "";
+
+      // Initialize the service based on role
+      if (_role.contains("student")) {
+        final Studentservice _service = Studentservice();
+        _profileFuture = _service.fetchProfile(widget.userId);
+
+        // Fetch data after fetching the profile
+        _profileFuture.then((profile) {
+          setState(() {
+            profileId = profile.id;
+          });
+        }).catchError((error) {
+          // Handle any errors that occur during fetching
+          setState(() {
+            // Optionally handle or log errors here
+          });
+        });
+      } else {
+        setState(() {
+          // Role is not supported
+          _role = "";
+        });
+      }
+    } catch (error) {
+      // Handle initialization errors
+      setState(() {
+        _role = "";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        color: ColorsUtils.lightGray,
-        child: const Text("Hello from Home"),
-      ),
-    );
+    // Show a loading spinner while initializing or fetching data
+    // if (_role.isEmpty) {
+    //   return Center(child: CircularProgressIndicator());
+    // }
+
+    return _role.contains("student")
+        ? SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(right: 10, left: 10),
+              color: ColorsUtils.lightGray,
+              child: Column(
+                children: [
+                  OfferRecommendation(),
+                  Divider(height: 0),
+                  ApplicationTable(
+                    studentId: profileId,
+                  ),
+                  ApplicationCardView(
+                    studentId: profileId,
+                  )
+                ],
+              ),
+            ),
+          )
+        : Center(child: Text("You're not a student"));
   }
 }

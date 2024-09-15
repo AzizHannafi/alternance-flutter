@@ -30,4 +30,11 @@ class SharedPreferencesUtils {
       return null;
     }
   }
+
+  static Future<void> clearPreferences() async {
+    if (_preferences == null) {
+      throw Exception("SharedPreferences not initialized. Call init() first.");
+    }
+    await _preferences!.clear();
+  }
 }

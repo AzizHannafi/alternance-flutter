@@ -1,4 +1,6 @@
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
+import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
+import 'package:alternance_flutter/views/auth/SignIn.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,7 +63,7 @@ class _DrawercState extends State<Drawerc> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(60),
                           child: Image.asset(
-                            "images/hr_female.png",
+                            "images/student.png",
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -92,7 +94,7 @@ class _DrawercState extends State<Drawerc> {
                   children: [
                     _buildListTile(
                       index: 0,
-                      title: 'Account',
+                      title: 'Profile',
                       icon: Icons.person,
                       selectedIcon: Icons.person_2_outlined,
                     ),
@@ -108,11 +110,13 @@ class _DrawercState extends State<Drawerc> {
                       icon: Icons.help,
                       selectedIcon: Icons.help,
                     ),
-                    _buildListTile(
-                      index: 3,
-                      title: 'Logout',
-                      icon: Icons.logout,
-                      selectedIcon: Icons.logout,
+                    ListTile(
+                      onTap: () => logout(context),
+                      leading: const Icon(
+                        Icons.logout,
+                        color: ColorsUtils.primaryBleu,
+                      ),
+                      title: const Text("Logout"),
                     ),
                   ],
                 ),
@@ -121,6 +125,20 @@ class _DrawercState extends State<Drawerc> {
           );
         },
       ),
+    );
+  }
+
+  void logout(BuildContext context) async {
+    // Clear SharedPreferences
+    await SharedPreferencesUtils.clearPreferences();
+
+    // Navigate to login screen and remove all previous screens
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              const SignInPage()), // Replace with your actual login page
+      (Route<dynamic> route) => false, // This will remove all previous routes
     );
   }
 
@@ -148,6 +166,7 @@ class _DrawercState extends State<Drawerc> {
         },
         leading: Icon(
           _selectedIndex == index ? selectedIcon : icon,
+          color: ColorsUtils.primaryBleu,
         ),
         title: Text(title),
       ),
