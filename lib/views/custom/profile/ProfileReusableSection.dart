@@ -1,6 +1,8 @@
+import 'package:alternance_flutter/model/Company.dart';
 import 'package:alternance_flutter/model/Student.dart';
 import 'package:alternance_flutter/model/UserProfile.dart';
 import 'package:alternance_flutter/service/Student/StudentService.dart';
+import 'package:alternance_flutter/service/company/CompanyService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +30,6 @@ class Profilereusablesection extends StatefulWidget {
 class _ProfilereusablesectionState extends State<Profilereusablesection> {
   bool _isEditing = false;
   late TextEditingController _textFiledController;
-  Studentservice _service = Studentservice();
 
   @override
   void initState() {
@@ -36,11 +37,22 @@ class _ProfilereusablesectionState extends State<Profilereusablesection> {
     if (widget.profile is Student) {
       Student currentProfile = widget.profile as Student;
       if (widget.isAbout) {
-        _textFiledController =
-            TextEditingController(text: currentProfile.about);
+        _textFiledController = TextEditingController(
+            text: currentProfile.about ??
+                "Provide some information about yourself.");
       } else {
-        _textFiledController =
-            TextEditingController(text: currentProfile.contactInfo);
+        _textFiledController = TextEditingController(
+            text: currentProfile.contactInfo ?? "Enter your phone number.");
+      }
+    } else if (widget.profile is Company) {
+      Company currentProfile = widget.profile as Company;
+      if (widget.isAbout) {
+        _textFiledController = TextEditingController(
+            text: currentProfile.about ??
+                "Provide some information about yourself.");
+      } else {
+        _textFiledController = TextEditingController(
+            text: currentProfile.contactInfo ?? "Enter your phone number.");
       }
     }
   }
@@ -109,49 +121,89 @@ class _ProfilereusablesectionState extends State<Profilereusablesection> {
     });
   }
 
-  void _saveProfile(Student std) async {
+  void _saveProfile(UserProfile profile) async {
     // Create a new Student object with updated data
-    Student updatedStudent = Student(
-      id: std.id,
-      userId: std.userId,
-      about: std.about,
-      createdAt: std.createdAt,
-      updatedAt: std.updatedAt,
-      firstName: std.firstName,
-      lastName: std.lastName,
-      headline: std.headline,
-      dateOfBirth: std.dateOfBirth,
-      contactInfo: std.contactInfo,
-    );
-
-    try {
-      // Attempt to update the profile and get the updated student
-      // Student updatedProfile =
-      await _service.updateProfile(std.id, updatedStudent);
-
-      // If the update is successful, show a success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Profile updated successfully',
-                style: const TextStyle(color: ColorsUtils.primaryGreen))),
+    if (profile is Student){
+      Student std = profile;
+      Student updatedStudent = Student(
+        id: std.id,
+        userId: std.userId,
+        about: std.about,
+        createdAt: std.createdAt,
+        updatedAt: std.updatedAt,
+        firstName: std.firstName,
+        lastName: std.lastName,
+        headline: std.headline,
+        dateOfBirth: std.dateOfBirth,
+        contactInfo: std.contactInfo,
       );
-    } catch (e) {
-      // If an error occurs, show a failure message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Failed to update profile: $e.',
-            style: const TextStyle(color: Colors.redAccent),
+      try {
+        final Studentservice service = Studentservice();
+
+        await service.updateProfile(std.id, updatedStudent);
+
+        // If the update is successful, show a success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Profile updated successfully',
+                  style: const TextStyle(color: ColorsUtils.primaryGreen))),
+        );
+      } catch (e) {
+        // If an error occurs, show a failure message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Failed to update profile: $e.',
+              style: const TextStyle(color: Colors.redAccent),
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
+    if (profile is Company){
+      Company cmp = profile;
+      Company updatedCompany = Company(
+        id: cmp.id,
+        userId: cmp.userId,
+        companyName: cmp.companyName,
+        industry: cmp.industry,
+        location: cmp.location,
+        about: cmp.about,
+        socialMedia: cmp.socialMedia,
+        createdAt: cmp.createdAt,
+        updatedAt: cmp.updatedAt,
+        contactInfo: cmp.contactInfo,
+      );
+      try {
+        final Companyservice service = Companyservice();
+
+        await service.updateProfile(cmp.id, updatedCompany);
+
+        // If the update is successful, show a success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Profile updated successfully',
+                  style: const TextStyle(color: ColorsUtils.primaryGreen))),
+        );
+      } catch (e) {
+        // If an error occurs, show a failure message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Failed to update profile: $e.',
+              style: const TextStyle(color: Colors.redAccent),
+            ),
+          ),
+        );
+      }
+    }
+
+
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.profile is Student) {
-      Student std = widget.profile as Student;
+    //if (widget.profile is Student) {
       return Container(
         constraints: BoxConstraints(
           maxHeight: widget.maxHeight, // Set a maximum height for the section
@@ -185,7 +237,14 @@ class _ProfilereusablesectionState extends State<Profilereusablesection> {
                 onPressed: () {
                   if (_isEditing) {
                     _toggleEditing();
-                    _saveProfile(std); // Save the profile if in editing mode
+                    if (widget.profile is Student) {
+                      Student std = widget.profile as Student;
+                      _saveProfile(std); // Save the profile if in editing mode
+
+                    }
+                    else if (widget.profile is Company){}
+                    Company cmp = widget.profile as Company;
+                    _saveProfile(cmp);
                   } else {
                     _toggleEditing(); // Toggle editing mode if not already editing
                   }
@@ -205,10 +264,10 @@ class _ProfilereusablesectionState extends State<Profilereusablesection> {
           ],
         ),
       );
-    } else {
+    } /*else {
       return const Center(
         child: Text("Unknown Profile Type"),
       );
-    }
-  }
+    }*/
+  //}
 }

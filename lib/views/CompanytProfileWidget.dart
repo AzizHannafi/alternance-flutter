@@ -1,45 +1,49 @@
+import 'package:alternance_flutter/model/Company.dart';
 import 'package:alternance_flutter/model/Student.dart';
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/DateUtilsC.dart';
 import 'package:flutter/material.dart';
 
-class StudentProfileWidget extends StatefulWidget {
-  final Student student;
-  StudentProfileWidget({super.key, required this.student});
+import '../service/company/CompanyService.dart';
+
+class CompanyProfileWidget extends StatefulWidget {
+  final Company  company;
+  CompanyProfileWidget({super.key, required this.company});
 
   @override
-  State<StudentProfileWidget> createState() => _StudentProfileWidgetState();
+  State<CompanyProfileWidget> createState() => _CompanyProfileWidgetState();
 }
 
-class _StudentProfileWidgetState extends State<StudentProfileWidget> {
+class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
   bool _isEditing = false;
   late TextEditingController _nameController;
-  late TextEditingController _headlineController;
-  late TextEditingController _dobController;
-  Studentservice _service = Studentservice();
+  late TextEditingController _industryController;
+  late TextEditingController _locationController;
 
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController(
-      text: '${widget.student.firstName} ${widget.student.lastName}',
+      text: '${widget.company.companyName}',
     );
-    _headlineController = TextEditingController(
-        text: widget.student.headline == ""
-            ? "Add your current position."
-            : widget.student.headline);
-    _dobController = TextEditingController(
-      text:
-          'Date Of Birth ${DateUtilsC.formatDateString(widget.student.dateOfBirth)}',
-    );
+    _industryController = TextEditingController(
+        text: widget.company.industry == "" || widget.company.industry ==null
+            ? "Add your filed of industry."
+            : widget.company.industry);
+
+    _locationController = TextEditingController(
+        text: widget.company.location == "" || widget.company.location ==null
+            ? "Add your company location."
+            : widget.company.location);
+
   }
 
   @override
   void dispose() {
     _nameController.dispose();
-    _headlineController.dispose();
-    _dobController.dispose();
+    _industryController.dispose();
+    _locationController.dispose();
     super.dispose();
   }
 
@@ -48,10 +52,10 @@ class _StudentProfileWidgetState extends State<StudentProfileWidget> {
       _isEditing = !_isEditing;
       if (!_isEditing) {
         // Save changes or handle updates here
-        widget.student.firstName = _nameController.text.split(' ')[0];
-        widget.student.lastName = _nameController.text.split(' ')[1];
-        widget.student.headline = _headlineController.text;
-        widget.student.dateOfBirth = _dobController.text.split(' ')[3];
+
+        widget.company.companyName = _nameController.text;
+        widget.company.industry = _industryController.text;
+        widget.company.location = _locationController.text;
         // Add more save logic if needed
       }
     });
@@ -59,23 +63,24 @@ class _StudentProfileWidgetState extends State<StudentProfileWidget> {
 
   void _saveProfile() async {
     // Create a new Student object with updated data
-    Student updatedStudent = Student(
-      id: widget.student.id,
-      userId: widget.student.userId,
-      about: widget.student.about,
-      createdAt: widget.student.createdAt,
-      updatedAt: widget.student.updatedAt,
-      firstName: widget.student.firstName,
-      lastName: widget.student.lastName,
-      headline: widget.student.headline,
-      dateOfBirth: DateUtilsC.formaToUtctDateString(widget.student.dateOfBirth),
-      contactInfo: widget.student.contactInfo,
+    Company company = Company(
+      id: widget.company.id,
+      userId: widget.company.userId,
+      companyName: widget.company.companyName,
+      industry: widget.company.industry,
+      location: widget.company.location,
+      about: widget.company.about,
+      socialMedia: widget.company.socialMedia,
+      createdAt: widget.company.createdAt,
+      updatedAt: widget.company.updatedAt,
+      contactInfo: widget.company.contactInfo,
     );
 
     try {
       // Attempt to update the profile and get the updated student
       // Student updatedProfile =
-      await _service.updateProfile(widget.student.id, updatedStudent);
+      final Companyservice service = Companyservice();
+      await service.updateProfile(widget.company.id, company);
 
       // If the update is successful, show a success message
       ScaffoldMessenger.of(context).showSnackBar(
@@ -187,21 +192,22 @@ class _StudentProfileWidgetState extends State<StudentProfileWidget> {
                 children: [
                   Icon(Icons.check_circle, color: Colors.green),
                   SizedBox(width: 4),
-                  Text("Student"),
+                  Text("Company"),
                 ],
               ),
               _buildEditableField(
                 textController: _nameController,
-                label: '${widget.student.firstName} ${widget.student.lastName}',
+                label: '${widget.company.companyName}',
               ),
               _buildEditableField(
-                textController: _headlineController,
-                label: widget.student.headline,
+                textController: _industryController,
+                label: '${widget.company.industry}',
               ),
               _buildEditableField(
-                textController: _dobController,
-                label: widget.student.dateOfBirth,
+                textController: _locationController,
+                label: '${ widget.company.location}',
               ),
+
             ],
           ),
           Positioned(

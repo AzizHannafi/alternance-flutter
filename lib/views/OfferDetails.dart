@@ -184,7 +184,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                   const SizedBox(height: 8),
                   // Company Name
                   Text(
-                    widget.offer!.company.companyName,
+                    '${widget.offer!.company.companyName}',
                     style: Theme.of(context).textTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
