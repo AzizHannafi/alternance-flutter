@@ -1,7 +1,9 @@
 import 'package:alternance_flutter/model/Company.dart';
 import 'package:alternance_flutter/model/Student.dart';
+import 'package:alternance_flutter/model/University%20.dart';
 import 'package:alternance_flutter/model/UserProfile.dart';
 import 'package:alternance_flutter/views/CompanytProfileWidget.dart';
+import 'package:alternance_flutter/views/UniversityProfileWidget.dart';
 import 'package:alternance_flutter/views/custom/profile/StudentProfileWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +22,10 @@ class _ProfileCardState extends State<ProfileCard> {
       return StudentProfileWidget(student: widget.profile as Student);
     }  if (widget.profile is Company) {
       return CompanyProfileWidget(company: widget.profile as Company);
+    }
+      if (widget.profile is University) {
+        return Universityprofilewidget(university: widget.profile as University);
+
     }else {
       return const Center(
         child: Text("Unknown Profile Type"),

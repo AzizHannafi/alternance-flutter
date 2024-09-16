@@ -7,6 +7,7 @@ import 'package:alternance_flutter/service/certificate/CertificateService.dart';
 import 'package:alternance_flutter/service/company/CompanyService.dart';
 import 'package:alternance_flutter/service/education/EducationService.dart';
 import 'package:alternance_flutter/service/experience/ExperienceService.dart';
+import 'package:alternance_flutter/service/univesrsity/UniversityService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
 import 'package:alternance_flutter/views/NoData.dart';
@@ -95,6 +96,24 @@ class _ProfileState extends State<Profile> {
           // Optionally handle or log errors here
         });
       });
+
+    } else if(_role.contains("university")){
+      final UniversityService service = UniversityService();
+      _profileFuture = service.fetchProfile(widget.userId);
+
+      // Fetch data after fetching the profile
+      _profileFuture.then((profile) {
+        setState(() {
+          profileId = profile.id;
+
+        });
+      }).catchError((error) {
+        print('*****************$error');
+
+        setState(() {
+
+        });
+      });
     } else {
       throw Exception("Unsupported role: $_role");
     }
@@ -112,6 +131,10 @@ class _ProfileState extends State<Profile> {
 
   bool isCompany() {
     return _role.contains("company");
+  }
+
+  bool isUniversity() {
+    return _role.contains("university");
   }
 
   @override

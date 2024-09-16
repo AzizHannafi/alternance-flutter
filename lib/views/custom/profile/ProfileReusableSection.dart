@@ -1,8 +1,10 @@
 import 'package:alternance_flutter/model/Company.dart';
 import 'package:alternance_flutter/model/Student.dart';
+import 'package:alternance_flutter/model/University%20.dart';
 import 'package:alternance_flutter/model/UserProfile.dart';
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/service/company/CompanyService.dart';
+import 'package:alternance_flutter/service/univesrsity/UniversityService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 
@@ -46,6 +48,17 @@ class _ProfilereusablesectionState extends State<Profilereusablesection> {
       }
     } else if (widget.profile is Company) {
       Company currentProfile = widget.profile as Company;
+      if (widget.isAbout) {
+        _textFiledController = TextEditingController(
+            text: currentProfile.about ??
+                "Provide some information about yourself.");
+      } else {
+        _textFiledController = TextEditingController(
+            text: currentProfile.contactInfo ?? "Enter your phone number.");
+      }
+    }
+    else if (widget.profile is University) {
+      University currentProfile = widget.profile as University;
       if (widget.isAbout) {
         _textFiledController = TextEditingController(
             text: currentProfile.about ??
@@ -197,7 +210,42 @@ class _ProfilereusablesectionState extends State<Profilereusablesection> {
         );
       }
     }
+    if (profile is University){
+      University university = profile;
+      University updatedUniversity = University(
+        id: university.id,
+        userId: university.userId,
+        universityName: university.universityName,
+        location: university.location,
+        about: university.about,
+        socialMedia: university.socialMedia,
+        createdAt: university.createdAt,
+        updatedAt: university.updatedAt,
+        contactInfo: university.contactInfo,
+      );
+      try {
+        final UniversityService service = UniversityService();
 
+        await service.updateProfile(university.id, updatedUniversity);
+
+        // If the update is successful, show a success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Profile updated successfully',
+                  style: const TextStyle(color: ColorsUtils.primaryGreen))),
+        );
+      } catch (e) {
+        // If an error occurs, show a failure message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Failed to update profile: $e.',
+              style: const TextStyle(color: Colors.redAccent),
+            ),
+          ),
+        );
+      }
+    }
 
   }
 
@@ -242,10 +290,14 @@ class _ProfilereusablesectionState extends State<Profilereusablesection> {
                       _saveProfile(std); // Save the profile if in editing mode
 
                     }
-                    else if (widget.profile is Company){}
-                    Company cmp = widget.profile as Company;
-                    _saveProfile(cmp);
-                  } else {
+                    else if (widget.profile is Company){Company cmp = widget.profile as Company;
+                    _saveProfile(cmp);}
+
+                  else if (widget.profile is University){
+                    University university = widget.profile as University;
+                    _saveProfile(university);
+                  }
+                  }else {
                     _toggleEditing(); // Toggle editing mode if not already editing
                   }
                 },
