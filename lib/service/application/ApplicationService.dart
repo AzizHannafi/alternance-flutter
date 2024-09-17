@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:alternance_flutter/model/Application.dart';
+import 'package:alternance_flutter/model/applicationOfferStudent/Application.dart';
 import 'package:alternance_flutter/model/ApplicationDto.dart';
 import 'package:alternance_flutter/service/ApiClient.dart';
 import 'package:dio/dio.dart';
@@ -46,6 +46,51 @@ class Applicationservice {
     }
   }
 
+  Future<List<Application>> fetchApplicationByCompany(int companyId) async {
+    try {
+      final response =
+      await _apiClient.dio.get('/api/applications/company/$companyId');
+
+      if (response.statusCode == 200) {
+        // Assuming the response data is a list of education objects
+        final List<dynamic> data = response.data;
+print('*****************************${response.data}');
+        // Manually map the response data to a list of Education objects
+        return data.map((json) => Application.fromJson(json)).toList();
+      } else {
+        print('*****************************${response.data}');
+
+        throw Exception('Failed to load Applications');
+      }
+    } catch (e) {
+      print('*****************************errrrrr${e}');
+
+      throw Exception('Failed to load Applications: $e');
+    }
+  }
+
+  Future<List<Application>> fetchApplicationByUniversity(int universityId) async {
+    try {
+      final response =
+      await _apiClient.dio.get('/api/applications/university/$universityId?statuses=accepted,validated,invalidated');
+
+      if (response.statusCode == 200) {
+        // Assuming the response data is a list of education objects
+        final List<dynamic> data = response.data;
+        print('*****************************${response.data}');
+        // Manually map the response data to a list of Education objects
+        return data.map((json) => Application.fromJson(json)).toList();
+      } else {
+        print('*****************************${response.data}');
+
+        throw Exception('Failed to load Applications');
+      }
+    } catch (e) {
+      print('*****************************errrrrr${e}');
+
+      throw Exception('Failed to load Applications: $e');
+    }
+  }
   Future<void> applyForJob({
     required int studentId,
     required int offerId,

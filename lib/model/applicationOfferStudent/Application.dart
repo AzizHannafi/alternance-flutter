@@ -1,25 +1,31 @@
-import 'ApplicationFile.dart'; // Assuming ApplicationFile is in a separate file
+import 'package:alternance_flutter/model/applicationOfferStudent/StudentDto.dart';
+import 'ApplicationFile.dart';
+import 'OfferApplicationDto.dart';
 
 class Application {
-  int id;
-  int studentId;
-  int offerId;
+  int? id;
+  int? studentId;
+  int? offerId;
   DateTime applicationDate;
   String status;
   String description;
   DateTime createdAt;
   DateTime updatedAt;
+  Offerapplicationdto offer;
+  Studentdto student;
   List<ApplicationFile> applicationFiles;
 
   Application({
-    required this.id,
-    required this.studentId,
-    required this.offerId,
+     this.id,
+     this.studentId,
+     this.offerId,
     required this.applicationDate,
     required this.status,
     required this.description,
     required this.createdAt,
     required this.updatedAt,
+    required this.offer,
+    required this.student,
     required this.applicationFiles,
   });
 
@@ -31,9 +37,11 @@ class Application {
       offerId: json['offerId'],
       applicationDate: DateTime.parse(json['applicationDate']),
       status: json['status'],
-      description: json['description'],
+      description: json['description'] ?? '',
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
+      offer: Offerapplicationdto.fromJson(json['Offer']),
+      student: Studentdto.fromJson(json['Student']),
       applicationFiles: (json['ApplicationFiles'] as List<dynamic>)
           .map((file) => ApplicationFile.fromJson(file))
           .toList(),
@@ -51,8 +59,9 @@ class Application {
       'description': description,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
-      'ApplicationFiles':
-          applicationFiles.map((file) => file.toJson()).toList(),
+      'Offer': offer.toJson(),
+      'Student': student.toJson(),
+      'ApplicationFiles': applicationFiles.map((file) => file.toJson()).toList(),
     };
   }
 }

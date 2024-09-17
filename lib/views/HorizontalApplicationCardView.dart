@@ -1,31 +1,50 @@
+import 'package:alternance_flutter/views/ApplicationCardContent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../model/ApplicationDto.dart';
+import '../model/applicationOfferStudent/Application.dart';
 import '../service/application/ApplicationService.dart';
 import '../utils/ColorsUtils.dart';
 import 'HorizontalApplicationCard.dart';
 
 class Horizontalapplicationcardview extends StatefulWidget {
-  final int userId;
-  Horizontalapplicationcardview({super.key, required this.userId});
+  final int profileId;
+  final String role;
+  Horizontalapplicationcardview({super.key, required this.profileId,required this.role});
 
   @override
   State<Horizontalapplicationcardview> createState() => _HorizontalapplicationcardviewState();
 }
 
 class _HorizontalapplicationcardviewState extends State<Horizontalapplicationcardview> {
-  late Future<List<ApplicationDto>> _applicationsFuture;
+  late Future<List<dynamic>> _applicationsFuture;
+  //late Future<List<Application>> _applications;
+
 
   @override
   void initState() {
     super.initState();
-    _applicationsFuture =
-        Applicationservice().fetchApplicationByStudent(widget.userId);
+    if(widget.role.contains("student")){
+      _applicationsFuture =
+          Applicationservice().fetchApplicationByStudent(widget.profileId);
+    }else if (widget.role.contains("company")){
+      _applicationsFuture = Applicationservice().fetchApplicationByCompany(widget.profileId);
+
+    }else if (widget.role.contains("university")){
+      _applicationsFuture = Applicationservice().fetchApplicationByUniversity(widget.profileId);
+
+    }
+
   }
 
   @override
   Widget build(BuildContext context) {
+
+    bool isStudent() {
+      return widget.role.contains("student");
+    }
+
     return Container(
       padding: const EdgeInsets.all(16.0),
       //color: Colors.white,// Adds padding around the container
@@ -42,7 +61,7 @@ class _HorizontalapplicationcardviewState extends State<Horizontalapplicationcar
           ),
           const SizedBox(height: 16.0), // Space between the title and the content
           Expanded( // Ensures this section takes all available space
-            child: FutureBuilder<List<ApplicationDto>>(
+            child: FutureBuilder<List<dynamic>>(
               future: _applicationsFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -61,7 +80,7 @@ class _HorizontalapplicationcardviewState extends State<Horizontalapplicationcar
                         width: double.infinity, // Define a width for each item
                         margin: const EdgeInsets.only(bottom: 16.0), // Space between items
                         child: Center(
-                          child: Horizontalapplicationcard(application: application),
+                          child: isStudent() ? Horizontalapplicationcard(application: application):ApplicationCardContent(application: application),
                         ),
                       );
                     },

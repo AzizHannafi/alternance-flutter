@@ -1,9 +1,11 @@
+import 'package:alternance_flutter/service/company/CompanyService.dart';
 import 'package:alternance_flutter/views/ApplicationCardView.dart';
 import 'package:alternance_flutter/views/HorizontalApplicationCardView.dart';
 import 'package:flutter/material.dart';
 
 import '../model/UserProfile.dart';
 import '../service/Student/StudentService.dart';
+import '../service/univesrsity/UniversityService.dart';
 import '../utils/SharedPreferencesUtils.dart';
 
 class Application extends StatefulWidget {
@@ -49,10 +51,36 @@ class _ApplicationState extends State<Application> {
             // Optionally handle or log errors here
           });
         });
-      } else {
-        setState(() {
-          // Role is not supported
-          _role = "";
+      } else  if (_role.contains("company")){
+        final Companyservice _service = Companyservice();
+        _profileFuture = _service.fetchProfile(SharedPreferencesUtils.getValue<int>("id")!);
+
+        // Fetch data after fetching the profile
+        _profileFuture.then((profile) {
+          setState(() {
+            profileId = profile.id;
+          });
+        }).catchError((error) {
+          // Handle any errors that occur during fetching
+          setState(() {
+            // Optionally handle or log errors here
+          });
+        });
+      }
+      else  if (_role.contains("university")){
+        final UniversityService _service = UniversityService();
+        _profileFuture = _service.fetchProfile(SharedPreferencesUtils.getValue<int>("id")!);
+
+        // Fetch data after fetching the profile
+        _profileFuture.then((profile) {
+          setState(() {
+            profileId = profile.id;
+          });
+        }).catchError((error) {
+          // Handle any errors that occur during fetching
+          setState(() {
+            // Optionally handle or log errors here
+          });
         });
       }
     } catch (error) {
@@ -64,6 +92,6 @@ class _ApplicationState extends State<Application> {
   }
   @override
   Widget build(BuildContext context) {
-    return profileId == null ? Center(child: CircularProgressIndicator(),): Center(child: Horizontalapplicationcardview(userId: profileId!),);
+    return profileId == null ? Center(child: CircularProgressIndicator(),): Center(child: Horizontalapplicationcardview(profileId: profileId!,role : _role),);
   }
 }

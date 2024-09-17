@@ -11,4 +11,23 @@ class ColorsUtils {
   static const Color transparentPurple = Color.fromARGB(52, 104, 58, 183);
   static const Color transparentBlue = Color.fromARGB(47, 4, 57, 218);
   static const Color transparentGrey = Color.fromARGB(48, 13, 21, 44);
+
+  static Color getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'accepted':
+        return Colors.lightBlue;
+      case 'pending':
+        return Colors.orange;
+      case 'rejected':
+        return Colors.grey;
+      case 'shortlisted':
+        return const Color.fromARGB(255, 252, 192, 102);
+      case 'validated':
+        return ColorsUtils.primaryGreen;
+      case 'invalidated':
+        return Colors.red;
+      default:
+        return Colors.grey; // Default color for unknown status
+    }
+  }
 }
