@@ -6,6 +6,10 @@ import 'package:alternance_flutter/model/Offers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../model/Company.dart';
+import '../service/company/CompanyService.dart';
+import '../utils/SharedPreferencesUtils.dart';
+
 class OfferFeedPage extends StatefulWidget {
   const OfferFeedPage({super.key});
 
@@ -14,19 +18,59 @@ class OfferFeedPage extends StatefulWidget {
 }
 
 class _OfferFeedPageState extends State<OfferFeedPage> {
-  late Future<Offers> _offersFuture;
-
+  Future<Offers>? _offersFuture;
+  String _role = "";
+  int profileId = 0;
   @override
   void initState() {
     super.initState();
-    final offerService = OfferService();
-    _offersFuture = offerService.fetchOffers();
+    _initializePreferences();
+
   }
+
+  Future<void> _initializePreferences() async {
+    // Await for SharedPreferences initialization
+    final offerService = OfferService();
+    await SharedPreferencesUtils.init();
+
+    // Load the user role after the preferences are initialized
+    setState(() {
+      _role = SharedPreferencesUtils.getValue<String>("role") ?? "";
+    });
+
+    // Initialize the service based on role
+     if (_role.contains("company")) {
+      final Companyservice service = Companyservice();
+      Future<Company> _CompanyFuture = service.fetchProfile(SharedPreferencesUtils.getValue<int>("id")!);
+
+      // Fetch data after fetching the profile
+      _CompanyFuture.then((profile) {
+        setState(() {
+          profileId = profile.id;
+          _offersFuture= offerService.fetchCompanyOffers(profile.id);
+        });
+      }).catchError((error) {
+        print('*****************$error');
+        // Handle any errors that occur during fetching
+        setState(() {
+          // Optionally handle or log errors here
+        });
+      });
+
+    }  else {
+      setState(() {
+        _offersFuture = offerService.fetchOffers();
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<Offers>(
+      body: _offersFuture == null // Check if _offersFuture is null
+          ? const Center(child: CircularProgressIndicator())
+          : FutureBuilder<Offers>(
         future: _offersFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -47,12 +91,11 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                 itemBuilder: (BuildContext context, int index) {
                   final offer = offers[index];
                   return Material(
-                    elevation: 1.0, // Adjust the elevation as needed
+                    elevation: 1.0,
                     borderRadius: BorderRadius.circular(8.0),
                     child: Container(
                       height: 136,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 8.0),
+                      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 8.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: ColorsUtils.primaryBleu),
                         borderRadius: BorderRadius.circular(8.0),
@@ -67,15 +110,15 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                               children: [
                                 Text(
                                   offer.title,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(height: 8),
-                                Text(offer.description,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium),
+                                Text(
+                                  offer.description,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
                                 const SizedBox(height: 8),
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -87,8 +130,7 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                                     return InkWell(
                                       onTap: () {},
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
+                                        padding: const EdgeInsets.only(right: 8.0),
                                         child: Icon(e, size: 16),
                                       ),
                                     );
@@ -101,8 +143,7 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      OfferDetails(offer: offer),
+                                  builder: (context) => OfferDetails(offer: offer),
                                 ),
                               );
                             },

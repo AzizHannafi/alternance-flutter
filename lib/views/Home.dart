@@ -7,7 +7,7 @@ import 'package:alternance_flutter/views/ApplicationTable.dart';
 import 'package:alternance_flutter/views/News.dart';
 import 'package:alternance_flutter/views/Offer.dart';
 import 'package:alternance_flutter/views/OfferRecommandation.dart';
-import 'package:alternance_flutter/views/Saved.dart';
+import 'package:alternance_flutter/views/Application.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -20,7 +20,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String _role = "";
-  late int profileId;
+   int? profileId;
   late Future<UserProfile> _profileFuture;
 
   @override
@@ -84,10 +84,10 @@ class _HomeState extends State<Home> {
                   OfferRecommendation(),
                   Divider(height: 0),
                   ApplicationTable(
-                    studentId: profileId,
+                    studentId: profileId!,
                   ),
                   ApplicationCardView(
-                    studentId: profileId,
+                    studentId: profileId!,
                   )
                 ],
               ),

@@ -4,7 +4,7 @@ import 'package:alternance_flutter/views/Home.dart';
 import 'package:alternance_flutter/views/News.dart';
 import 'package:alternance_flutter/views/Offer.dart';
 import 'package:alternance_flutter/views/Profile.dart';
-import 'package:alternance_flutter/views/Saved.dart';
+import 'package:alternance_flutter/views/Application.dart';
 import 'package:alternance_flutter/views/Settings.dart';
 import 'package:alternance_flutter/views/custom/BottomNavigationC.dart';
 import 'package:alternance_flutter/views/custom/DrawerC.dart';
@@ -36,7 +36,7 @@ class _BrowseState extends State<Browse> {
     // Load the user ID after the preferences are initialized
     setState(() {
       _userId = SharedPreferencesUtils.getValue<int>("id") ?? 0;
-      bottomNavPages = [Home(userId: _userId), Offer(), Saved(), News()];
+      bottomNavPages = [Home(userId: _userId), Offer(), Application(), News()];
       _currentBody =
           bottomNavPages[_selectedIndex]; // Ensure body is set after init
     });

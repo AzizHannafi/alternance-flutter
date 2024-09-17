@@ -39,7 +39,7 @@ const _navBarItems = [
   BottomNavigationBarItem(
     icon: Icon(Icons.bookmark_border_outlined),
     activeIcon: Icon(Icons.bookmark_rounded),
-    label: 'Saved',
+    label: 'Application',
   ),
   BottomNavigationBarItem(
     icon: Icon(Icons.notifications_active_outlined),
