@@ -7,40 +7,43 @@ import '../model/applicationOfferStudent/Application.dart';
 import '../service/application/ApplicationService.dart';
 import '../utils/ColorsUtils.dart';
 import 'HorizontalApplicationCard.dart';
+import 'application/CondidateDetails.dart';
 
 class Horizontalapplicationcardview extends StatefulWidget {
   final int profileId;
   final String role;
-  Horizontalapplicationcardview({super.key, required this.profileId,required this.role});
+
+  Horizontalapplicationcardview(
+      {super.key, required this.profileId, required this.role});
 
   @override
-  State<Horizontalapplicationcardview> createState() => _HorizontalapplicationcardviewState();
+  State<Horizontalapplicationcardview> createState() =>
+      _HorizontalapplicationcardviewState();
 }
 
-class _HorizontalapplicationcardviewState extends State<Horizontalapplicationcardview> {
+class _HorizontalapplicationcardviewState
+    extends State<Horizontalapplicationcardview> {
   late Future<List<dynamic>> _applicationsFuture;
-  //late Future<List<Application>> _applications;
 
+  //late Future<List<Application>> _applications;
 
   @override
   void initState() {
     super.initState();
-    if(widget.role.contains("student")){
+    if (widget.role.contains("student")) {
       _applicationsFuture =
           Applicationservice().fetchApplicationByStudent(widget.profileId);
-    }else if (widget.role.contains("company")){
-      _applicationsFuture = Applicationservice().fetchApplicationByCompany(widget.profileId);
-
-    }else if (widget.role.contains("university")){
-      _applicationsFuture = Applicationservice().fetchApplicationByUniversity(widget.profileId);
-
+    } else if (widget.role.contains("company")) {
+      _applicationsFuture =
+          Applicationservice().fetchApplicationByCompany(widget.profileId);
+    } else if (widget.role.contains("university")) {
+      _applicationsFuture =
+          Applicationservice().fetchApplicationByUniversity(widget.profileId);
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     bool isStudent() {
       return widget.role.contains("student");
     }
@@ -59,8 +62,10 @@ class _HorizontalapplicationcardviewState extends State<Horizontalapplicationcar
               color: ColorsUtils.primaryBleu,
             ),
           ),
-          const SizedBox(height: 16.0), // Space between the title and the content
-          Expanded( // Ensures this section takes all available space
+          const SizedBox(height: 16.0),
+          // Space between the title and the content
+          Expanded(
+            // Ensures this section takes all available space
             child: FutureBuilder<List<dynamic>>(
               future: _applicationsFuture,
               builder: (context, snapshot) {
@@ -77,10 +82,37 @@ class _HorizontalapplicationcardviewState extends State<Horizontalapplicationcar
                     itemBuilder: (context, index) {
                       final application = applications[index];
                       return Container(
-                        width: double.infinity, // Define a width for each item
-                        margin: const EdgeInsets.only(bottom: 16.0), // Space between items
-                        child: Center(
-                          child: isStudent() ? Horizontalapplicationcard(application: application):Card(elevation: 7,color: Colors.white,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),margin: const EdgeInsets.symmetric(vertical: 8.0),child: ApplicationCardContent(application: application),),
+                        width: double.infinity,
+                        // Define a width for each item
+                        margin: const EdgeInsets.only(bottom: 16.0),
+                        // Space between items
+
+                        child: isStudent() ?
+                        Horizontalapplicationcard(
+                            application: application)
+
+                            : GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      CondidateDetails(
+                                        applicationData: application,
+                                        role: widget.role,),
+                                ));
+                          },
+                          child: Card(
+                            elevation: 7,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(12)),
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 8.0),
+                            child: ApplicationCardContent(
+                                application: application),
+                          ),
                         ),
                       );
                     },

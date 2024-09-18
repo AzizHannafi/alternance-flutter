@@ -123,4 +123,27 @@ print('*****************************${response.data}');
       throw Exception('Error submitting application: $e');
     }
   }
+  Future<void> updateApplicationStatus(int applicationId, String status) async {
+    try {
+      Map<String, dynamic> body = {
+        "status": status,
+      };
+
+      // Perform the PUT request to update the application status
+      final response = await _apiClient.dio.put(
+        "/api/applications/$applicationId",
+        data: body,
+      );
+
+      if (response.statusCode == 200) {
+        print('Application status updated successfully!');
+      } else {
+        throw Exception('Failed to update application status');
+      }
+    } catch (e) {
+      print('Error updating application status: $e');
+      throw Exception('Error updating application status: $e');
+    }
+  }
+
 }

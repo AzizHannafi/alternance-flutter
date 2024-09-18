@@ -20,6 +20,7 @@ class Studentdto extends Student {
     required super.lastName,
     required super.dateOfBirth,
     required super.headline,
+    super.about,
     required this.experiences,
     required this.educations,
     required this.certificates,
@@ -36,6 +37,7 @@ class Studentdto extends Student {
       lastName: json['lastName'] ?? '',
       dateOfBirth: json['dateOfBirth'] ?? '',
       headline: json['headline'] ?? '',
+      about: json['about'] ?? '',
       experiences: (json['Experiences'] as List<dynamic>?)
           ?.map((exp) => Experience.fromJson(exp))
           .toList() ??

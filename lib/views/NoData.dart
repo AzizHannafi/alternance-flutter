@@ -12,7 +12,7 @@ class Nodata extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Oh no $filed yet! add some',
+            'Oh no! $filed yet!',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           SizedBox(
