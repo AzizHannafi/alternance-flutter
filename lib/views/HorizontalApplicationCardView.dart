@@ -1,4 +1,4 @@
-import 'package:alternance_flutter/views/ApplicationCardContent.dart';
+import 'package:alternance_flutter/views/application/ApplicationCardContent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -80,7 +80,7 @@ class _HorizontalapplicationcardviewState extends State<Horizontalapplicationcar
                         width: double.infinity, // Define a width for each item
                         margin: const EdgeInsets.only(bottom: 16.0), // Space between items
                         child: Center(
-                          child: isStudent() ? Horizontalapplicationcard(application: application):ApplicationCardContent(application: application),
+                          child: isStudent() ? Horizontalapplicationcard(application: application):Card(elevation: 7,color: Colors.white,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),margin: const EdgeInsets.symmetric(vertical: 8.0),child: ApplicationCardContent(application: application),),
                         ),
                       );
                     },

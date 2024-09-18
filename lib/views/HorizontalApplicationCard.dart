@@ -1,4 +1,4 @@
-import 'package:alternance_flutter/views/StudentCardContent.dart';
+import 'package:alternance_flutter/views/application/StudentCardContent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

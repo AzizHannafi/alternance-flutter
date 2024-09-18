@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../model/ApplicationDto.dart';
-import '../utils/ColorsUtils.dart';
+import '../../model/ApplicationDto.dart';
+import '../../utils/ColorsUtils.dart';
 
 class Studentcardcontent extends StatelessWidget {
   final ApplicationDto application;

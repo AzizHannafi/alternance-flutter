@@ -1,5 +1,6 @@
-import 'package:alternance_flutter/views/OfferFeedPage.dart';
 import 'package:flutter/material.dart';
+
+import 'OfferFeedPage.dart';
 
 class Offer extends StatefulWidget {
   const Offer({super.key});

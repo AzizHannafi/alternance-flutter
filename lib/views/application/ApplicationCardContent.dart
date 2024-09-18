@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../model/ApplicationDto.dart';
-import '../utils/ColorsUtils.dart';
+import '../../model/ApplicationDto.dart';
+import '../../utils/ColorsUtils.dart';
 
 class ApplicationCardContent extends StatelessWidget {
   final Application application;
@@ -20,7 +20,6 @@ class ApplicationCardContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Divider(color: ColorsUtils.primaryGreen,),
           const SizedBox(height: 8),
           // Status
           Container(
@@ -102,6 +101,7 @@ class ApplicationCardContent extends StatelessWidget {
               color: Colors.black87,
             ),
           ),
+          const SizedBox(height: 8),
 
         ],
       ),

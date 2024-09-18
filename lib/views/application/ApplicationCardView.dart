@@ -1,7 +1,7 @@
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:alternance_flutter/service/application/ApplicationService.dart';
-import 'package:alternance_flutter/views/ApplicationCard.dart';
+import 'package:alternance_flutter/views/application/ApplicationCard.dart';
 import 'package:alternance_flutter/model/ApplicationDto.dart'; // Make sure to import your model
 
 class ApplicationCardView extends StatefulWidget {

@@ -1,7 +1,8 @@
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
-import 'package:alternance_flutter/views/OfferDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:alternance_flutter/model/Offer.dart';
+
+import '../offer/OfferDetails.dart';
 
 class OfferCard extends StatelessWidget {
   final Offer offer;
@@ -25,7 +26,8 @@ class OfferCard extends StatelessWidget {
         ),
         margin: const EdgeInsets.all(8.0),
         child: Container(
-          width: 280, // Constrain the width of the OfferCard
+          width: 280,
+          // Constrain the width of the OfferCard
           height: 150,
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(

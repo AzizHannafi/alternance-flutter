@@ -2,16 +2,17 @@ import 'package:alternance_flutter/model/UserProfile.dart';
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
-import 'package:alternance_flutter/views/ApplicationCardView.dart';
-import 'package:alternance_flutter/views/ApplicationTable.dart';
-import 'package:alternance_flutter/views/News.dart';
-import 'package:alternance_flutter/views/Offer.dart';
-import 'package:alternance_flutter/views/OfferRecommandation.dart';
-import 'package:alternance_flutter/views/Application.dart';
+
+
 import 'package:flutter/material.dart';
+
+import 'application/ApplicationCardView.dart';
+import 'application/ApplicationTable.dart';
+import 'offer/OfferRecommandation.dart';
 
 class Home extends StatefulWidget {
   final int userId;
+
   Home({super.key, required this.userId});
 
   @override
@@ -20,7 +21,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String _role = "";
-   int? profileId;
+  int? profileId;
   late Future<UserProfile> _profileFuture;
 
   @override

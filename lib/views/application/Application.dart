@@ -1,12 +1,11 @@
 import 'package:alternance_flutter/service/company/CompanyService.dart';
-import 'package:alternance_flutter/views/ApplicationCardView.dart';
 import 'package:alternance_flutter/views/HorizontalApplicationCardView.dart';
 import 'package:flutter/material.dart';
 
-import '../model/UserProfile.dart';
-import '../service/Student/StudentService.dart';
-import '../service/univesrsity/UniversityService.dart';
-import '../utils/SharedPreferencesUtils.dart';
+import '../../model/UserProfile.dart';
+import '../../service/Student/StudentService.dart';
+import '../../service/univesrsity/UniversityService.dart';
+import '../../utils/SharedPreferencesUtils.dart';
 
 class Application extends StatefulWidget {
 

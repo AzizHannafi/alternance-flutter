@@ -1,14 +1,16 @@
 // Updated import for OfferDetails
+import 'package:alternance_flutter/model/Company.dart';
 import 'package:alternance_flutter/service/Offer/OfferService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
-import 'package:alternance_flutter/views/OfferDetails.dart';
 import 'package:alternance_flutter/model/Offers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../model/Company.dart';
-import '../service/company/CompanyService.dart';
-import '../utils/SharedPreferencesUtils.dart';
+import '../../service/company/CompanyService.dart';
+import '../../utils/SharedPreferencesUtils.dart';
+import 'OfferDetails.dart';
+
+
 
 class OfferFeedPage extends StatefulWidget {
   const OfferFeedPage({super.key});
