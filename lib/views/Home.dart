@@ -2,7 +2,8 @@ import 'package:alternance_flutter/model/UserProfile.dart';
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
-
+import 'package:alternance_flutter/views/CompanyRecommandation.dart';
+import 'package:alternance_flutter/views/UniversityRecommandation.dart';
 
 import 'package:flutter/material.dart';
 
@@ -70,11 +71,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // Show a loading spinner while initializing or fetching data
-    // if (_role.isEmpty) {
-    //   return Center(child: CircularProgressIndicator());
-    // }
-
     return _role.contains("student")
         ? SingleChildScrollView(
             child: Container(
@@ -84,12 +80,17 @@ class _HomeState extends State<Home> {
                 children: [
                   OfferRecommendation(),
                   Divider(height: 0),
-                  ApplicationTable(
+                  /*ApplicationTable(
                     studentId: profileId!,
-                  ),
+                  ),*/
+                  Divider(height: 0),
                   ApplicationCardView(
                     studentId: profileId!,
-                  )
+                  ),
+                  Divider(height: 0),
+                  CompanyRecommandation(),
+                  Divider(height: 0),
+                  UniversityRecommandation()
                 ],
               ),
             ),

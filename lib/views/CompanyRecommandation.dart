@@ -1,25 +1,27 @@
-import 'package:alternance_flutter/model/Offers.dart';
-import 'package:alternance_flutter/service/Offer/OfferService.dart';
-import 'package:alternance_flutter/utils/ColorsUtils.dart';
-import 'package:alternance_flutter/views/NoData.dart';
-import 'package:alternance_flutter/views/custom/OfferCard.dart';
+import 'package:alternance_flutter/service/company/CompanyService.dart';
+import 'package:alternance_flutter/views/offer/CompanyCard.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class OfferRecommendation extends StatefulWidget {
-  const OfferRecommendation({super.key});
+import '../model/Company.dart';
+import '../utils/ColorsUtils.dart';
+import 'NoData.dart';
+
+class CompanyRecommandation extends StatefulWidget {
+  const CompanyRecommandation({super.key});
 
   @override
-  State<OfferRecommendation> createState() => _OfferRecommendationState();
+  State<CompanyRecommandation> createState() => _CompanyRecommandationState();
 }
 
-class _OfferRecommendationState extends State<OfferRecommendation> {
-  late Future<Offers> _offersFuture;
+class _CompanyRecommandationState extends State<CompanyRecommandation> {
+  late Future<List<Company>> _companyFuture;
 
   @override
   void initState() {
     super.initState();
-    final offerService = OfferService();
-    _offersFuture = offerService.fetchRecentOffers();
+    final companyService = Companyservice();
+    _companyFuture = companyService.fetchCompany();
   }
 
   @override
@@ -35,46 +37,46 @@ class _OfferRecommendationState extends State<OfferRecommendation> {
           children: [
             Row(
               children: [
-                Icon(Icons.business_center, color: ColorsUtils.primaryGreen),
+                Icon(Icons.business, color: ColorsUtils.primaryGreen),
                 const SizedBox(
                   width: 10,
                 ),
                 const Text(
-                  "Offers Recommendation",
+                  "Companies Recommendation",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: ColorsUtils.primaryBleu,
                   ),
-                ),
+                )
               ],
             ),
             const SizedBox(height: 10),
-            FutureBuilder<Offers>(
-              future: _offersFuture,
+            FutureBuilder<List<Company>>(
+              future: _companyFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(
                       child: Container(
-                    width: 300,
-                    child: Nodata(filed: "No offers available"),
+                    height: 300,
+                    child: Nodata(filed: "No Company available"),
                   ));
-                } else if (!snapshot.hasData || snapshot.data!.offers.isEmpty) {
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(
                       child: Container(
-                    width: 300,
-                    child: Nodata(filed: "No offers available"),
+                    height: 300,
+                    child: Nodata(filed: "No Company available"),
                   ));
                 } else {
                   // Extract the list of offers from the Offers object
-                  final offers = snapshot.data!.offers;
+                  final companies = snapshot.data!;
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: offers
-                          .map((offer) => OfferCard(offer: offer))
+                      children: companies
+                          .map((company) => CompanyCard(company: company))
                           .toList(),
                     ),
                   );

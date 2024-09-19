@@ -2,7 +2,9 @@ import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:alternance_flutter/service/application/ApplicationService.dart';
 import 'package:alternance_flutter/views/application/ApplicationCard.dart';
-import 'package:alternance_flutter/model/ApplicationDto.dart'; // Make sure to import your model
+import 'package:alternance_flutter/model/ApplicationDto.dart';
+
+import '../NoData.dart'; // Make sure to import your model
 
 class ApplicationCardView extends StatefulWidget {
   final int studentId;
@@ -31,13 +33,21 @@ class _ApplicationCardViewState extends State<ApplicationCardView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Recent Application",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: ColorsUtils.primaryBleu,
-            ),
+          const Row(
+            children: [
+              Icon(Icons.app_registration, color: ColorsUtils.primaryGreen),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                "Recent Application",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: ColorsUtils.primaryBleu,
+                ),
+              )
+            ],
           ),
           Container(
             padding: const EdgeInsets.all(16.0),
@@ -47,9 +57,16 @@ class _ApplicationCardViewState extends State<ApplicationCardView> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return Center(
+                      child: Container(
+                    height: 300,
+                    child: Nodata(filed: "No applications found"),
+                  ));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No applications found.'));
+                  return Center(
+                      child: Container(
+                          height: 300,
+                          child: Nodata(filed: "No applications found")));
                 } else {
                   final applications = snapshot.data!;
                   return SizedBox(

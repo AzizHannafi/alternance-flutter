@@ -39,4 +39,21 @@ class Studentservice {
       throw Exception('Failed to update profile: $e');
     }
   }
+
+  Future<List<Student>> fetchStudent() async {
+    try {
+      final response = await _apiClient.dio.get("/api/students");
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+
+        return data.map((studentJson) => Student.fromJson(studentJson)).toList();
+
+      } else {
+        throw Exception('Failed to load students');
+      }
+    } catch (e) {
+      throw Exception('Failed to load students: $e');
+    }
+  }
 }

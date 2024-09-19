@@ -39,4 +39,20 @@ class UniversityService {
       throw Exception('Failed to update Company profile: $e');
     }
   }
+
+  Future<List<University>> fetchUniversity() async {
+    try {
+      final response = await _apiClient.dio.get("/api/universities");
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((universityJson) => University.fromJson(universityJson)).toList();
+
+      } else {
+        throw Exception('Failed to load universities');
+      }
+    } catch (e) {
+      throw Exception('Failed to load universities: $e');
+    }
+  }
 }

@@ -1,25 +1,28 @@
-import 'package:alternance_flutter/model/Offers.dart';
-import 'package:alternance_flutter/service/Offer/OfferService.dart';
-import 'package:alternance_flutter/utils/ColorsUtils.dart';
-import 'package:alternance_flutter/views/NoData.dart';
-import 'package:alternance_flutter/views/custom/OfferCard.dart';
+import 'package:alternance_flutter/model/University%20.dart';
+import 'package:alternance_flutter/service/univesrsity/UniversityService.dart';
+import 'package:alternance_flutter/views/UniversityCard.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class OfferRecommendation extends StatefulWidget {
-  const OfferRecommendation({super.key});
+import '../utils/ColorsUtils.dart';
+import 'NoData.dart';
+
+class UniversityRecommandation extends StatefulWidget {
+  const UniversityRecommandation({super.key});
 
   @override
-  State<OfferRecommendation> createState() => _OfferRecommendationState();
+  State<UniversityRecommandation> createState() =>
+      _UniversityRecommandationState();
 }
 
-class _OfferRecommendationState extends State<OfferRecommendation> {
-  late Future<Offers> _offersFuture;
+class _UniversityRecommandationState extends State<UniversityRecommandation> {
+  late Future<List<University>> _universitFuture;
 
   @override
   void initState() {
     super.initState();
-    final offerService = OfferService();
-    _offersFuture = offerService.fetchRecentOffers();
+    final _universityService = UniversityService();
+    _universitFuture = _universityService.fetchUniversity();
   }
 
   @override
@@ -35,46 +38,47 @@ class _OfferRecommendationState extends State<OfferRecommendation> {
           children: [
             Row(
               children: [
-                Icon(Icons.business_center, color: ColorsUtils.primaryGreen),
+                Icon(Icons.school_outlined, color: ColorsUtils.primaryGreen),
                 const SizedBox(
                   width: 10,
                 ),
                 const Text(
-                  "Offers Recommendation",
+                  "Universities Recommendation",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: ColorsUtils.primaryBleu,
                   ),
-                ),
+                )
               ],
             ),
             const SizedBox(height: 10),
-            FutureBuilder<Offers>(
-              future: _offersFuture,
+            FutureBuilder<List<University>>(
+              future: _universitFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(
                       child: Container(
-                    width: 300,
-                    child: Nodata(filed: "No offers available"),
+                    height: 300,
+                    child: Nodata(filed: "No UniversityUniversity available"),
                   ));
-                } else if (!snapshot.hasData || snapshot.data!.offers.isEmpty) {
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(
                       child: Container(
-                    width: 300,
-                    child: Nodata(filed: "No offers available"),
+                    height: 300,
+                    child: Nodata(filed: "No UniversityUniversity available"),
                   ));
                 } else {
                   // Extract the list of offers from the Offers object
-                  final offers = snapshot.data!.offers;
+                  final universities = snapshot.data!;
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: offers
-                          .map((offer) => OfferCard(offer: offer))
+                      children: universities
+                          .map((university) =>
+                              UniversityCard(university: university))
                           .toList(),
                     ),
                   );

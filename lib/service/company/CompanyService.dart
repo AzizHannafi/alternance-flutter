@@ -39,4 +39,20 @@ class Companyservice {
       throw Exception('Failed to update Company profile: $e');
     }
   }
+
+  Future<List<Company>> fetchCompany() async {
+    try {
+      final response = await _apiClient.dio.get("/api/companies");
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((companyJson) => Company.fromJson(companyJson)).toList();
+      } else {
+        throw Exception('Failed to load companies');
+      }
+    } catch (e) {
+
+      throw Exception('Failed to load companies: $e');
+    }
+  }
 }
