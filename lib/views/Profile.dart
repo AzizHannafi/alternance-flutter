@@ -83,18 +83,10 @@ class _ProfileState extends State<Profile> {
       _profileFuture.then((profile) {
         setState(() {
           profileId = profile.id;
-          // _educationFuture = Educationservice().fetchEducationById(profile.id);
-          // _experienceFuture =
-          //     Experienceservice().fetchExperienceById(profile.id);
-          // _certificateFuture =
-          //     Certificateservice().fetchCertificateById(profile.id);
+
         });
       }).catchError((error) {
         print('*****************$error');
-        // Handle any errors that occur during fetching
-        setState(() {
-          // Optionally handle or log errors here
-        });
       });
 
     } else if(_role.contains("university")){

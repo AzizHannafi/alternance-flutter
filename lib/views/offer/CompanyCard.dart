@@ -31,7 +31,7 @@ class CompanyCard extends StatelessWidget {
           height: 150,
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: ColorsUtils.primaryBleu, // Your custom color
+            color: Colors.blue, // Your custom color
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(

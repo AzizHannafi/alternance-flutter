@@ -8,6 +8,7 @@ import '../utils/ColorsUtils.dart';
 import 'NoData.dart';
 
 class CompanyRecommandation extends StatefulWidget {
+
   const CompanyRecommandation({super.key});
 
   @override
