@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ApplicationCard extends StatelessWidget {
-  final ApplicationDto application;
+  final dynamic application;
 
   ApplicationCard({required this.application});
 
