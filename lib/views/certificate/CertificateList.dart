@@ -8,8 +8,8 @@ import 'package:intl/intl.dart'; // For date formatting
 class CertificateList extends StatelessWidget {
   final List<Certificate> certificateList;
   final Certificateservice _certificateService = Certificateservice();
-
-  CertificateList({Key? key, required this.certificateList}) : super(key: key);
+  final bool isEditable;
+  CertificateList({Key? key, required this.certificateList,required this.isEditable}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,18 +49,22 @@ class CertificateList extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           // Delete Icon with a pop-up confirmation
-                          IconButton(
-                            icon: const Icon(
-                              Icons.delete_outline_rounded,
-                              color: Colors.redAccent,
-                            ),
-                            onPressed: () {
-                              _showDeleteConfirmationDialog(
-                                  context, certificate);
-                            },
-                          ),
+                         Visibility
+                           (visible: isEditable,
+                             child:  IconButton(
+                           icon: const Icon(
+                             Icons.delete_outline_rounded,
+                             color: Colors.redAccent,
+                           ),
+                           onPressed: () {
+                             _showDeleteConfirmationDialog(
+                                 context, certificate);
+                           },
+                         )),
                           // Edit Icon
-                          IconButton(
+                          Visibility(
+                            visible: isEditable,
+                              child: IconButton(
                             icon: Icon(
                               Icons.edit,
                               color: ColorsUtils.primaryGreen,
@@ -72,7 +76,7 @@ class CertificateList extends StatelessWidget {
                                 ),
                               ));
                             },
-                          ),
+                          )),
                         ],
                       ),
                     ],

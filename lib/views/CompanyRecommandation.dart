@@ -1,4 +1,5 @@
 import 'package:alternance_flutter/service/company/CompanyService.dart';
+import 'package:alternance_flutter/views/ViewProfile.dart';
 import 'package:alternance_flutter/views/offer/CompanyCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class _CompanyRecommandationState extends State<CompanyRecommandation> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: companies
-                          .map((company) => CompanyCard(company: company))
+                          .map((company) => CompanyCard(company: company),)
                           .toList(),
                     ),
                   );

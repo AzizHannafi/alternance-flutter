@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 
 class StudentProfileWidget extends StatefulWidget {
   final Student student;
-  StudentProfileWidget({super.key, required this.student});
+  final bool isEditable;
+  StudentProfileWidget({super.key, required this.student,required this.isEditable});
 
   @override
   State<StudentProfileWidget> createState() => _StudentProfileWidgetState();
@@ -204,24 +205,27 @@ class _StudentProfileWidgetState extends State<StudentProfileWidget> {
               ),
             ],
           ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: IconButton(
-              icon: Icon(
-                _isEditing ? Icons.check : Icons.edit,
-                color: Colors.white,
+          Visibility(
+            visible: widget.isEditable,
+            child: Positioned(
+              top: 10,
+              right: 10,
+              child: IconButton(
+                icon: Icon(
+                  _isEditing ? Icons.check : Icons.edit,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  if (_isEditing) {
+                    _toggleEditing();
+                    _saveProfile(); // Save the profile if in editing mode
+                  } else {
+                    _toggleEditing(); // Toggle editing mode if not already editing
+                  }
+                },
               ),
-              onPressed: () {
-                if (_isEditing) {
-                  _toggleEditing();
-                  _saveProfile(); // Save the profile if in editing mode
-                } else {
-                  _toggleEditing(); // Toggle editing mode if not already editing
-                }
-              },
             ),
-          ),
+          )
         ],
       ),
     );

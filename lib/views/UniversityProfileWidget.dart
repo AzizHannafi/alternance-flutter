@@ -7,7 +7,8 @@ import '../utils/ColorsUtils.dart';
 
 class Universityprofilewidget extends StatefulWidget {
   final University  university;
-  Universityprofilewidget({super.key, required this.university});
+  final bool isEditable;
+  Universityprofilewidget({super.key, required this.university,required this.isEditable});
 
   @override
   State<Universityprofilewidget> createState() => _CompanyProfileWidgetState();
@@ -196,24 +197,28 @@ class _CompanyProfileWidgetState extends State<Universityprofilewidget> {
 
             ],
           ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: IconButton(
-              icon: Icon(
-                _isEditing ? Icons.check : Icons.edit,
-                color: Colors.white,
+          Visibility(
+            visible: widget.isEditable,
+            child: Positioned(
+              top: 10,
+              right: 10,
+              child: IconButton(
+                icon: Icon(
+                  _isEditing ? Icons.check : Icons.edit,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  if (_isEditing) {
+                    _toggleEditing();
+                    _saveProfile(); // Save the profile if in editing mode
+                  } else {
+                    _toggleEditing(); // Toggle editing mode if not already editing
+                  }
+                },
               ),
-              onPressed: () {
-                if (_isEditing) {
-                  _toggleEditing();
-                  _saveProfile(); // Save the profile if in editing mode
-                } else {
-                  _toggleEditing(); // Toggle editing mode if not already editing
-                }
-              },
             ),
-          ),
+          )
+          ,
         ],
       ),
     );

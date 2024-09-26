@@ -9,8 +9,9 @@ import 'package:intl/intl.dart';
 class ExperienceList extends StatelessWidget {
   final List<Experience> experienceList;
   final Experienceservice _experienceService = Experienceservice();
+  final bool isEditable;
 
-  ExperienceList({Key? key, required this.experienceList}) : super(key: key);
+  ExperienceList({Key? key, required this.experienceList,required this.isEditable}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,9 @@ class ExperienceList extends StatelessWidget {
                             .min, // Takes minimal width for the icons
                         children: [
                           // Delete Icon with confirmation
-                          IconButton(
+                          Visibility(
+                              visible: isEditable,
+                              child: IconButton(
                             icon: const Icon(
                               Icons.delete_outline_rounded,
                               color: Colors.redAccent,
@@ -64,9 +67,10 @@ class ExperienceList extends StatelessWidget {
                               _showDeleteConfirmationDialog(
                                   context, experience);
                             },
-                          ),
+                          )),
                           // Edit Icon
-                          IconButton(
+                          Visibility(visible: isEditable,
+                              child: IconButton(
                             icon: const Icon(
                               Icons.edit,
                               color: ColorsUtils.primaryGreen,
@@ -78,7 +82,7 @@ class ExperienceList extends StatelessWidget {
                                 ),
                               ));
                             },
-                          ),
+                          )),
                         ],
                       ),
                     ],

@@ -68,12 +68,6 @@ class _ProfileState extends State<Profile> {
           _certificateFuture =
               Certificateservice().fetchCertificateById(profile.id);
         });
-      }).catchError((error) {
-        print('*****************$error');
-        // Handle any errors that occur during fetching
-        setState(() {
-          // Optionally handle or log errors here
-        });
       });
     } else if (_role.contains("company")) {
       final Companyservice service = Companyservice();
@@ -168,14 +162,14 @@ class _ProfileState extends State<Profile> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ProfileCard(profile: profile),
+                            ProfileCard(profile: profile,isEditable: true,),
                             const SizedBox(height: 16.0),
 
                             Container(
                               child: Profilereusablesection(
                                 title: 'About',
-                                content: Text(profile.about == null
-                                    ? ""
+                                content: Text(profile.about == null ||profile.about == ""
+                                    ? "No additional information for this user"
                                     : profile.about!),
                                 profile: profile,
                                 maxHeight:
@@ -185,6 +179,7 @@ class _ProfileState extends State<Profile> {
                                   Icons.info_outline,
                                   color: ColorsUtils.primaryBleu,
                                 ),
+                                  isEditable: true
                               ),
                             ),
                             const SizedBox(height: 16.0),
@@ -205,6 +200,7 @@ class _ProfileState extends State<Profile> {
                                   Icons.phone_android_sharp,
                                   color: ColorsUtils.primaryBleu,
                                 ),
+                                isEditable: true,
                               ),
                             ),
                             const SizedBox(height: 16.0),
@@ -242,10 +238,12 @@ class _ProfileState extends State<Profile> {
                                               filed: "Education",
                                             )
                                           : EducationList(
-                                              educationList: educationList),
+                                              educationList: educationList,isEditable: true,),
                                       maxHeight: 300,
                                       addElement:
                                           Addeducation(studentId: profileId),
+                                        isEditable: true
+
                                     ),
                                   );
                                 },
@@ -280,12 +278,13 @@ class _ProfileState extends State<Profile> {
                                               filed: "Experience",
                                             )
                                           : ExperienceList(
-                                              experienceList: experienceList),
+                                              experienceList: experienceList,isEditable: false),
                                       maxHeight:
                                           MediaQuery.of(context).size.height *
                                               0.3,
                                       addElement:
                                           AddExperience(studentId: profileId),
+                                      isEditable: true,
                                     ),
                                   );
                                 },
@@ -320,12 +319,13 @@ class _ProfileState extends State<Profile> {
                                               filed: "Certificates",
                                             )
                                           : CertificateList(
-                                              certificateList: certificateList),
+                                              certificateList: certificateList,isEditable: true,),
                                       maxHeight:
                                           MediaQuery.of(context).size.height *
                                               0.3,
                                       addElement:
                                           Addcertificate(studentId: profileId),
+                                      isEditable: true  ,
                                     ),
                                   );
                                 },

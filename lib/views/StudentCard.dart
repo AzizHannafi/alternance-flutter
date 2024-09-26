@@ -1,5 +1,6 @@
 import 'package:alternance_flutter/model/Student.dart';
 import 'package:alternance_flutter/utils/DateUtilsC.dart';
+import 'package:alternance_flutter/views/ViewProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,11 +15,12 @@ class StudentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        /* Navigator.push(
+         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OfferDetails(offer: offer),
-            ));*/
+              builder: (context) => ViewProfile(userId:student.userId ,role: "student",),
+            ));
+
       },
       child: Card(
         elevation: 4, // Set the elevation to create a shadow effect

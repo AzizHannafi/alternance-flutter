@@ -1,5 +1,6 @@
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/views/StudentCard.dart';
+import 'package:alternance_flutter/views/ViewProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -75,11 +76,9 @@ class _StudentRecommandationState extends State<StudentRecommandation> {
                   final students = snapshot.data!;
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: students
-                          .map((student) => StudentCard(student: student))
-                          .toList(),
-                    ),
+                    child:Row(
+                      children: students.map((student) =>StudentCard(student: student)).toList(),
+                    )
                   );
                 }
               },

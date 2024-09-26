@@ -6,6 +6,8 @@ class ReusableSection extends StatelessWidget {
   final Widget content;
   final double maxHeight;
   final Widget addElement;
+  final isEditable;
+
 
   const ReusableSection({
     super.key,
@@ -13,6 +15,7 @@ class ReusableSection extends StatelessWidget {
     required this.content,
     required this.maxHeight,
     required this.addElement,
+    required this.isEditable
   });
 
   @override
@@ -49,7 +52,9 @@ class ReusableSection extends StatelessWidget {
                 ),
               ),
               // Add Icon
-              IconButton(
+              Visibility(
+                  visible: isEditable,
+                  child: IconButton(
                 icon: const Icon(
                   Icons.add,
                   color: ColorsUtils.primaryGreen,
@@ -59,7 +64,7 @@ class ReusableSection extends StatelessWidget {
                     builder: (context) => addElement,
                   ));
                 },
-              ),
+              )),
             ],
           ),
           const SizedBox(height: 8.0),

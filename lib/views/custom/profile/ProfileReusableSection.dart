@@ -15,6 +15,7 @@ class Profilereusablesection extends StatefulWidget {
   final double maxHeight;
   final bool isAbout;
   final Icon icon;
+  final bool isEditable;
 
   const Profilereusablesection(
       {super.key,
@@ -23,7 +24,8 @@ class Profilereusablesection extends StatefulWidget {
       required this.profile,
       required this.maxHeight,
       required this.isAbout,
-      required this.icon});
+      required this.icon,
+      required this.isEditable});
 
   @override
   _ProfilereusablesectionState createState() => _ProfilereusablesectionState();
@@ -281,30 +283,33 @@ class _ProfilereusablesectionState extends State<Profilereusablesection> {
                   color: ColorsUtils.primaryBleu,
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  if (_isEditing) {
-                    _toggleEditing();
-                    if (widget.profile is Student) {
-                      Student std = widget.profile as Student;
-                      _saveProfile(std); // Save the profile if in editing mode
+              Visibility(
+                  visible: widget.isEditable,
+                  child: IconButton(
+                          onPressed: () {
+                            if (_isEditing) {
+                              _toggleEditing();
+                              if (widget.profile is Student) {
+                                Student std = widget.profile as Student;
+                                _saveProfile(std); // Save the profile if in editing mode
 
-                    }
-                    else if (widget.profile is Company){Company cmp = widget.profile as Company;
-                    _saveProfile(cmp);}
+                              }
+                              else if (widget.profile is Company){Company cmp = widget.profile as Company;
+                              _saveProfile(cmp);}
 
-                  else if (widget.profile is University){
-                    University university = widget.profile as University;
-                    _saveProfile(university);
-                  }
-                  }else {
-                    _toggleEditing(); // Toggle editing mode if not already editing
-                  }
-                },
-                icon: Icon(
-                  _isEditing ? Icons.check : Icons.edit,
-                  color: ColorsUtils.primaryGreen,
+                              else if (widget.profile is University){
+                                University university = widget.profile as University;
+                                _saveProfile(university);
+                              }
+                            }else {
+                              _toggleEditing();
+                            }
+                          },
+                        icon: Icon(
+                          _isEditing ? Icons.check : Icons.edit,
+                          color: ColorsUtils.primaryGreen,
                 ),
+              )
               )
             ]),
             const SizedBox(height: 8.0),

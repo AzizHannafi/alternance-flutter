@@ -8,8 +8,8 @@ import 'package:intl/intl.dart'; // For date formatting
 class EducationList extends StatelessWidget {
   final List<Education> educationList;
   final Educationservice _educationService = Educationservice();
-
-  EducationList({Key? key, required this.educationList}) : super(key: key);
+final bool isEditable;
+  EducationList({Key? key, required this.educationList,required this.isEditable}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,9 @@ class EducationList extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           // Delete Icon with a pop-up confirmation
-                          IconButton(
+                          Visibility
+                            (visible: isEditable,
+                              child: IconButton(
                             icon: const Icon(
                               Icons.delete_outline_rounded,
                               color: Colors.redAccent,
@@ -58,21 +60,23 @@ class EducationList extends StatelessWidget {
                             onPressed: () {
                               _showDeleteConfirmationDialog(context, education);
                             },
-                          ),
+                          )),
                           // Edit Icon
-                          IconButton(
-                            icon: const Icon(
-                              Icons.edit,
-                              color: ColorsUtils.primaryGreen,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Educationdetails(
-                                  education: education,
-                                ),
-                              ));
-                            },
-                          ),
+                         Visibility(
+                             visible: isEditable,
+                             child:  IconButton(
+                           icon: const Icon(
+                             Icons.edit,
+                             color: ColorsUtils.primaryGreen,
+                           ),
+                           onPressed: () {
+                             Navigator.of(context).push(MaterialPageRoute(
+                               builder: (context) => Educationdetails(
+                                 education: education,
+                               ),
+                             ));
+                           },
+                         )),
                         ],
                       ),
                     ],

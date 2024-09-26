@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 
 class ProfileCard extends StatefulWidget {
   final UserProfile profile;
-  ProfileCard({required this.profile, Key? key}) : super(key: key);
+  final bool isEditable;
+  ProfileCard({required this.profile, Key? key,required this.isEditable}) : super(key: key);
 
   @override
   _ProfileCardState createState() => _ProfileCardState();
@@ -19,12 +20,12 @@ class _ProfileCardState extends State<ProfileCard> {
   @override
   Widget build(BuildContext context) {
     if (widget.profile is Student) {
-      return StudentProfileWidget(student: widget.profile as Student);
+      return StudentProfileWidget(student: widget.profile as Student,isEditable: widget.isEditable);
     }  if (widget.profile is Company) {
-      return CompanyProfileWidget(company: widget.profile as Company);
+      return CompanyProfileWidget(company: widget.profile as Company,isEditable: widget.isEditable);
     }
       if (widget.profile is University) {
-        return Universityprofilewidget(university: widget.profile as University);
+        return Universityprofilewidget(university: widget.profile as University,isEditable: widget.isEditable);
 
     }else {
       return const Center(

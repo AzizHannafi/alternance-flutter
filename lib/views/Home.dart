@@ -93,20 +93,24 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    switch (_role) {
-      case "":
-        return Center(child: CircularProgressIndicator());
-      case "student":
-        return StudentHomescreen(profileId: profileId!);
-      case "company":
-        return CompanyHomeScreen(profileId: profileId!);
-      case "university":
-        return UniversityHomeScreen(profileId: profileId!);
-      default:
-        return const Center(
-            child: Nodata(
-          filed: "Invalid role found",
-        ));
+    if (profileId == null) {
+      return Center(child: CircularProgressIndicator());
+    } else {
+      switch (_role) {
+        case "" || null:
+          return Center(child: CircularProgressIndicator());
+        case "student":
+          return StudentHomescreen(profileId: profileId!);
+        case "company":
+          return CompanyHomeScreen(profileId: profileId!);
+        case "university":
+          return UniversityHomeScreen(profileId: profileId!);
+        default:
+          return const Center(
+              child: Nodata(
+                filed: "Invalid role found",
+              ));
+      }
     }
   }
 }

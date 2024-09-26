@@ -1,15 +1,12 @@
 import 'package:alternance_flutter/model/Company.dart';
-import 'package:alternance_flutter/model/Student.dart';
-import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
-import 'package:alternance_flutter/utils/DateUtilsC.dart';
 import 'package:flutter/material.dart';
 
 import '../service/company/CompanyService.dart';
 
 class CompanyProfileWidget extends StatefulWidget {
   final Company  company;
-  CompanyProfileWidget({super.key, required this.company});
+  final bool isEditable;  CompanyProfileWidget({super.key, required this.company,required this.isEditable});
 
   @override
   State<CompanyProfileWidget> createState() => _CompanyProfileWidgetState();
@@ -210,24 +207,28 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
 
             ],
           ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: IconButton(
-              icon: Icon(
-                _isEditing ? Icons.check : Icons.edit,
-                color: Colors.white,
+          Visibility(
+            visible: widget.isEditable,
+            child: Positioned(
+              top: 10,
+              right: 10,
+              child: IconButton(
+                icon: Icon(
+                  _isEditing ? Icons.check : Icons.edit,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  if (_isEditing) {
+                    _toggleEditing();
+                    _saveProfile(); // Save the profile if in editing mode
+                  } else {
+                    _toggleEditing(); // Toggle editing mode if not already editing
+                  }
+                },
               ),
-              onPressed: () {
-                if (_isEditing) {
-                  _toggleEditing();
-                  _saveProfile(); // Save the profile if in editing mode
-                } else {
-                  _toggleEditing(); // Toggle editing mode if not already editing
-                }
-              },
             ),
-          ),
+          )
+          ,
         ],
       ),
     );

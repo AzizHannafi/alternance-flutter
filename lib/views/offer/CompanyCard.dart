@@ -1,4 +1,5 @@
 import 'package:alternance_flutter/model/Company.dart';
+import 'package:alternance_flutter/views/ViewProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,11 +14,11 @@ class CompanyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        /* Navigator.push(
+         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OfferDetails(offer: offer),
-            ));*/
+              builder: (context) => ViewProfile(userId: company.userId,role: "company",),
+            ));
       },
       child: Card(
         elevation: 4, // Set the elevation to create a shadow effect
