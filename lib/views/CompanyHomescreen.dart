@@ -1,7 +1,5 @@
 import 'package:alternance_flutter/views/StudentRecommandation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../utils/ColorsUtils.dart';
 import 'UniversityRecommandation.dart';
 import 'application/ApplicationCardView.dart';
@@ -30,10 +28,6 @@ class CompanyHomeScreen extends StatelessWidget {
               profileId: profileId!,role: "company",
             ),
             Divider(height: 0),
-
-            //Divider(height: 0),
-            //CompanyRecommandation(),
-            //Divider(height: 0),
             UniversityRecommandation()
           ],
         ),
