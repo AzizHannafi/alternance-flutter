@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "885678836787",
+    "project_id": "alternance-f2eef",
+    "storage_bucket": "alternance-f2eef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885678836787:android:1196804a6b2969e8616746",
+        "android_client_info": {
+          "package_name": "com.example.alternance_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQqWdSd8UE_buyoqwSSWgJXqMA5uA7VdI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

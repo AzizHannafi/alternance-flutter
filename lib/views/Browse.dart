@@ -10,6 +10,8 @@ import 'package:alternance_flutter/views/custom/BottomNavigationC.dart';
 import 'package:alternance_flutter/views/custom/DrawerC.dart';
 import 'package:flutter/material.dart';
 
+import '../service/firebase/FCMService.dart';
+
 class Browse extends StatefulWidget {
   const Browse({super.key});
 
@@ -18,6 +20,7 @@ class Browse extends StatefulWidget {
 }
 
 class _BrowseState extends State<Browse> {
+  final FCMService fcmService = FCMService();
   int _userId = 0;
   int _selectedIndex = 0;
   List<Widget> bottomNavPages = []; // Initialize with empty list
@@ -40,6 +43,7 @@ class _BrowseState extends State<Browse> {
       _currentBody =
           bottomNavPages[_selectedIndex]; // Ensure body is set after init
     });
+    await fcmService.initialize();
   }
 
   void _onBottomNavItemTapped(int index) {
