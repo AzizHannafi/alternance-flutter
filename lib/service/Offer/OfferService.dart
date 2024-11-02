@@ -46,4 +46,35 @@ class OfferService {
       throw Exception('Failed to load offers: $e');
     }
   }
+
+  Future<Offers> fetchOffersByFilters({
+    String search = '',
+    String employmentType = '',
+    String university = '',
+    String status = 'open',
+    int page = 1,
+    int limit = 15,
+  }) async {
+    try {
+      final response = await _apiClient.dio.get(
+        "/api/offers/status/$status",
+        queryParameters: {
+          'page': page,
+          'limit': limit,
+          'search': search,
+          'employmentType': employmentType,
+          'university': university,
+          'status': status,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return Offers.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load offers');
+      }
+    } catch (e) {
+      throw Exception('Failed to load offers: $e');
+    }
+  }
 }
