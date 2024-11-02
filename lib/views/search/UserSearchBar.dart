@@ -1,3 +1,4 @@
+import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 
 class UserSearchBar extends StatefulWidget {
@@ -79,14 +80,16 @@ class _UserSearchBarState extends State<UserSearchBar> {
             Expanded(
               child: ElevatedButton(
                 onPressed: widget.onApplyFilters,
-                child: const Text('Apply Filters'),
+                child: const Text('Apply Filters',style: TextStyle(color: Colors.white),),
+                style: ButtonStyle(backgroundColor:WidgetStateProperty.all(ColorsUtils.primaryGreen)),
               ),
             ),
             const SizedBox(width: 8),
             Expanded(
               child: OutlinedButton(
                 onPressed: _resetFilters,
-                child: const Text('Reset'),
+                child: const Text('Reset',style: TextStyle(color: Colors.white)),
+                style: ButtonStyle(backgroundColor:WidgetStateProperty.all(ColorsUtils.primaryBleu)),
               ),
             ),
           ],

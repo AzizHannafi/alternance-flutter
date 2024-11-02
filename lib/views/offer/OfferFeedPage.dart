@@ -79,7 +79,7 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
   void filterOffers() {
     setState(() {
       _filteredOffers = _allOffers.where((offer) {
-        final matchesSearchQuery = offer.title.contains(searchQuery) || offer.description.contains(searchQuery);
+        final matchesSearchQuery = offer.title.toLowerCase().contains(searchQuery.toLowerCase()) || offer.description.toLowerCase().contains(searchQuery.toLowerCase());
         final matchesEmploymentType = employmentType.isEmpty || offer.employmentType == employmentType;
         final matchesStatus = status.isEmpty || offer.status == status;
         return matchesSearchQuery && matchesEmploymentType && matchesStatus;

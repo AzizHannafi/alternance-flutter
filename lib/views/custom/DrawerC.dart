@@ -1,6 +1,7 @@
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
 import 'package:alternance_flutter/views/auth/SignIn.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -132,6 +133,8 @@ class _DrawercState extends State<Drawerc> {
     // Clear SharedPreferences
     await SharedPreferencesUtils.clearPreferences();
 
+    // Remove the Firebase token
+    await FirebaseMessaging.instance.deleteToken();
     // Navigate to login screen and remove all previous screens
     Navigator.pushAndRemoveUntil(
       context,
