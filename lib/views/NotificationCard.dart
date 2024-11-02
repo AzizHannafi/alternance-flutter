@@ -23,65 +23,67 @@ class _NotificationCardState extends State<NotificationCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: _getReadStatusColor(isRead),
-      elevation: 7,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              widget.notification.message,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              maxLines: 2,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              DateFormat('yyyy-MM-dd HH:mm:ss').format(
-                DateTime.parse(widget.notification.createdAt.toString()),
-              ),
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.black87,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: _getReadStatusColor(isRead),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isRead = !isRead;
-                    // Optionally update the notification's isRead status in the backend or parent widget
-                  });
-                },
-                child: Text(
-                  isRead ? 'MARK AS UNREAD' : 'MARK AS READ',
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8.0), // Move margin here
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12.0),
+        child: Container(
+          color: _getReadStatusColor(isRead),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.notification.message,
                   style: const TextStyle(
-                    color: Colors.white,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
+                  maxLines: 2,
                 ),
-              ),
+                const SizedBox(height: 8),
+                Text(
+                  DateFormat('yyyy-MM-dd HH:mm:ss').format(
+                    DateTime.parse(widget.notification.createdAt.toString()),
+                  ),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: _getReadStatusColor(isRead),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isRead = !isRead;
+                        // Optionally update the notification's isRead status in the backend or parent widget
+                      });
+                    },
+                    child: Text(
+                      isRead ? 'MARK AS UNREAD' : 'MARK AS READ',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
-    );;
+    );
   }
+
 
   Color _getReadStatusColor(bool isRead) {
     return isRead ? ColorsUtils.primaryGreen : ColorsUtils.transparentGrey;

@@ -1,56 +1,46 @@
-import 'package:alternance_flutter/views/application/ApplicationCardContent.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:alternance_flutter/views/NoData.dart';
+import 'package:alternance_flutter/views/search/StatusFilterDropdown.dart';
 import 'package:flutter/material.dart';
-
-import '../model/ApplicationDto.dart';
-import '../model/applicationOfferStudent/Application.dart';
 import '../service/application/ApplicationService.dart';
 import '../utils/ColorsUtils.dart';
 import 'HorizontalApplicationCard.dart';
+import 'application/ApplicationCardContent.dart';
 import 'application/CondidateDetails.dart';
 
 class Horizontalapplicationcardview extends StatefulWidget {
   final int profileId;
   final String role;
 
-  Horizontalapplicationcardview(
-      {super.key, required this.profileId, required this.role});
+  Horizontalapplicationcardview({super.key, required this.profileId, required this.role});
 
   @override
-  State<Horizontalapplicationcardview> createState() =>
-      _HorizontalapplicationcardviewState();
+  State<Horizontalapplicationcardview> createState() => _HorizontalapplicationcardviewState();
 }
 
-class _HorizontalapplicationcardviewState
-    extends State<Horizontalapplicationcardview> {
+class _HorizontalapplicationcardviewState extends State<Horizontalapplicationcardview> {
   late Future<List<dynamic>> _applicationsFuture;
-
-  //late Future<List<Application>> _applications;
+  String? _selectedStatus; // To hold the selected status filter
 
   @override
   void initState() {
     super.initState();
+    _fetchApplications();
+  }
+
+  void _fetchApplications() {
     if (widget.role.contains("student")) {
-      _applicationsFuture =
-          Applicationservice().fetchApplicationByStudent(widget.profileId);
+      _applicationsFuture = Applicationservice().fetchApplicationByStudent(widget.profileId);
     } else if (widget.role.contains("company")) {
-      _applicationsFuture =
-          Applicationservice().fetchApplicationByCompany(widget.profileId);
+      _applicationsFuture = Applicationservice().fetchApplicationByCompany(widget.profileId);
     } else if (widget.role.contains("university")) {
-      _applicationsFuture =
-          Applicationservice().fetchApplicationByUniversity(widget.profileId);
+      _applicationsFuture = Applicationservice().fetchApplicationByUniversity(widget.profileId);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isStudent() {
-      return widget.role.contains("student");
-    }
-
     return Container(
       padding: const EdgeInsets.all(16.0),
-      //color: Colors.white,// Adds padding around the container
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -63,9 +53,17 @@ class _HorizontalapplicationcardviewState
             ),
           ),
           const SizedBox(height: 16.0),
-          // Space between the title and the content
+          StatusFilterDropdown(
+            selectedStatus: _selectedStatus,
+            onStatusChanged: (String? newStatus) {
+              setState(() {
+                _selectedStatus = newStatus;
+                // Optionally, you could trigger a fetch of applications based on the selected status
+              });
+            },
+          ),
+          const SizedBox(height: 16.0),
           Expanded(
-            // Ensures this section takes all available space
             child: FutureBuilder<List<dynamic>>(
               future: _applicationsFuture,
               builder: (context, snapshot) {
@@ -77,41 +75,44 @@ class _HorizontalapplicationcardviewState
                   return const Center(child: Text('No applications found.'));
                 } else {
                   final applications = snapshot.data!;
+                  // Apply the filter if a status is selected
+                  final filteredApplications = _selectedStatus != null
+                      ? applications.where((application) => application.status.toLowerCase() == _selectedStatus).toList()
+                      : applications;
+
+                  // Check if there are filtered applications
+                  if (filteredApplications.isEmpty) {
+                    return const Center(child: Nodata(filed: 'No applications found.'));
+                  }
+
                   return ListView.builder(
-                    itemCount: applications.length,
+                    itemCount: filteredApplications.length,
                     itemBuilder: (context, index) {
-                      final application = applications[index];
+                      final application = filteredApplications[index];
                       return Container(
                         width: double.infinity,
-                        // Define a width for each item
                         margin: const EdgeInsets.only(bottom: 16.0),
-                        // Space between items
-
-                        child: isStudent() ?
-                        Horizontalapplicationcard(
-                            application: application)
-
+                        child: widget.role.contains("student")
+                            ? Horizontalapplicationcard(application: application)
                             : GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      CondidateDetails(
-                                        applicationData: application,
-                                        role: widget.role,),
-                                ));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CondidateDetails(
+                                  applicationData: application,
+                                  role: widget.role,
+                                ),
+                              ),
+                            );
                           },
                           child: Card(
                             elevation: 7,
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(12)),
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 8.0),
-                            child: ApplicationCardContent(
-                                application: application),
+                                borderRadius: BorderRadius.circular(12)),
+                            margin: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: ApplicationCardContent(application: application),
                           ),
                         ),
                       );
