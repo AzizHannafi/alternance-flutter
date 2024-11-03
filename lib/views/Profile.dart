@@ -42,7 +42,6 @@ class _ProfileState extends State<Profile> {
   late Future<List<Certificate>> _certificateFuture;
   String _role = "";
   int profileId = 0;
-  // late dynamic _service;
 
   Future<void> _initializePreferences() async {
     // Await for SharedPreferences initialization
@@ -278,7 +277,7 @@ class _ProfileState extends State<Profile> {
                                               filed: "Experience",
                                             )
                                           : ExperienceList(
-                                              experienceList: experienceList,isEditable: false),
+                                              experienceList: experienceList,isEditable: true),
                                       maxHeight:
                                           MediaQuery.of(context).size.height *
                                               0.3,
@@ -301,11 +300,6 @@ class _ProfileState extends State<Profile> {
                                     return Center(
                                         child: Text(
                                             'Error: ${certificateSnapshot.error}'));
-                                    // } else if (!certificateSnapshot.hasData ||
-                                    //     certificateSnapshot.data!.isEmpty) {
-                                    //   return const Center(
-                                    //       child:
-                                    //           Text('No certificate data found'));
                                   }
 
                                   final certificateList =

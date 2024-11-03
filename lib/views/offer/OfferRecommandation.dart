@@ -1,9 +1,10 @@
-import 'package:alternance_flutter/model/Offers.dart';
 import 'package:alternance_flutter/service/Offer/OfferService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/views/NoData.dart';
 import 'package:alternance_flutter/views/custom/OfferCard.dart';
 import 'package:flutter/material.dart';
+
+import '../../model/offers/Offers.dart';
 
 class OfferRecommendation extends StatefulWidget {
   const OfferRecommendation({super.key});

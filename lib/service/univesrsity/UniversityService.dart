@@ -55,4 +55,22 @@ class UniversityService {
       throw Exception('Failed to load universities: $e');
     }
   }
+
+  Future<Map<int, String>> fetchUniversityMap() async {
+    try {
+      final response = await _apiClient.dio.get("/api/universities");
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return {
+          for (var universityJson in data)
+            universityJson['id']: universityJson['universityName']
+        };
+      } else {
+        throw Exception('Failed to load universities');
+      }
+    } catch (e) {
+      throw Exception('Failed to load universities: $e');
+    }
+  }
 }

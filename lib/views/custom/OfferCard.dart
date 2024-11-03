@@ -1,6 +1,6 @@
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
-import 'package:alternance_flutter/model/Offer.dart';
+import 'package:alternance_flutter/model/offers/Offer.dart';
 
 import '../offer/OfferDetails.dart';
 

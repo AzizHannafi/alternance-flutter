@@ -1,11 +1,14 @@
-import 'package:alternance_flutter/model/Offer.dart';
+import 'package:alternance_flutter/model/offers/Offer.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/DateUtilsC.dart';
 import 'package:alternance_flutter/views/JobApply.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/SharedPreferencesUtils.dart';
+
 class OfferDetails extends StatefulWidget {
   final Offer? offer;
+
   const OfferDetails({super.key, required this.offer});
 
   @override
@@ -14,10 +17,21 @@ class OfferDetails extends StatefulWidget {
 
 class _OfferDetailsState extends State<OfferDetails> {
   String selectedContent = 'Description';
+  String _role = "";
 
   void updateContent(String content) {
     setState(() {
       selectedContent = content;
+    });
+  }
+
+  Future<void> _initializePreferences() async {
+    // Await for SharedPreferences initialization
+    await SharedPreferencesUtils.init();
+
+    // Load the user role after the preferences are initialized
+    setState(() {
+      _role = SharedPreferencesUtils.getValue<String>("role") ?? "";
     });
   }
 
@@ -238,8 +252,8 @@ class _OfferDetailsState extends State<OfferDetails> {
                     Container(
                       height: 55,
                       width: 55,
-                      padding:
-                          const EdgeInsets.all(8), // Padding around the icon
+                      padding: const EdgeInsets.all(8),
+                      // Padding around the icon
                       decoration: const BoxDecoration(
                         color: ColorsUtils.transparentGreen, // Background color
                         shape: BoxShape.circle, // Circular shape
@@ -267,8 +281,8 @@ class _OfferDetailsState extends State<OfferDetails> {
                     Container(
                       height: 55,
                       width: 55,
-                      padding:
-                          const EdgeInsets.all(8), // Padding around the icon
+                      padding: const EdgeInsets.all(8),
+                      // Padding around the icon
                       decoration: const BoxDecoration(
                         color: ColorsUtils.transparentBlue, // Background color
                         shape: BoxShape.circle, // Circular shape
@@ -296,8 +310,8 @@ class _OfferDetailsState extends State<OfferDetails> {
                     Container(
                       height: 55,
                       width: 55,
-                      padding:
-                          const EdgeInsets.all(8), // Padding around the icon
+                      padding: const EdgeInsets.all(8),
+                      // Padding around the icon
                       decoration: const BoxDecoration(
                         color:
                             ColorsUtils.transparentPurple, // Background color
@@ -385,29 +399,32 @@ class _OfferDetailsState extends State<OfferDetails> {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 16,
-              left: 0,
-              right: 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: SizedBox(
-                  width: screenWidth,
-                  height: 50,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Jobapply(
-                              offerId: widget.offer!.id,
-                            ),
-                          ));
-                    },
-                    backgroundColor: ColorsUtils.primaryGreen,
-                    child: const Text(
-                      'Apply Now',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+            Visibility(
+              visible: _role.contains("student"),
+              child: Positioned(
+                bottom: 16,
+                left: 0,
+                right: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SizedBox(
+                    width: screenWidth,
+                    height: 50,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Jobapply(
+                                offerId: widget.offer!.id,
+                              ),
+                            ));
+                      },
+                      backgroundColor: ColorsUtils.primaryGreen,
+                      child: const Text(
+                        'Apply Now',
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
                     ),
                   ),
                 ),

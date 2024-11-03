@@ -1,4 +1,4 @@
-import 'package:alternance_flutter/model/OfferDto.dart';
+import 'offers/OfferDto.dart';
 
 class ApplicationDto {
   int id;

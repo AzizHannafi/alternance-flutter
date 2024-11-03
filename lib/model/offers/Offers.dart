@@ -1,4 +1,4 @@
-import 'package:alternance_flutter/model/Offer.dart';
+import 'package:alternance_flutter/model/offers/Offer.dart';
 
 class Offers {
   final List<Offer> offers;

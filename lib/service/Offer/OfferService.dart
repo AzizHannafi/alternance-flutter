@@ -1,5 +1,7 @@
-import 'package:alternance_flutter/model/Offers.dart';
 import 'package:alternance_flutter/service/ApiClient.dart';
+
+import '../../model/offers/AddOfferDto.dart';
+import '../../model/offers/Offers.dart';
 
 class OfferService {
   final ApiClient _apiClient = ApiClient();
@@ -75,6 +77,35 @@ class OfferService {
       }
     } catch (e) {
       throw Exception('Failed to load offers: $e');
+    }
+  }
+
+  Future<Map<String, dynamic>> addOffer(AddOfferDto offerDto) async {
+    try {
+      final response = await _apiClient.dio.post(
+        "/api/offers",
+        data: offerDto.toJson(),
+      );
+
+      if (response.statusCode == 201) {
+        // Offer created successfully
+        final responseData = response.data as Map<String, dynamic>;
+        final message = responseData['message'] as String;
+        final createdOffer = responseData['createdOffer'] as Map<String, dynamic>;
+
+        return {
+          'success': true,
+          'message': message,
+          'createdOffer': createdOffer,
+        };
+      } else {
+        throw Exception('Failed to add offer: Unexpected status code ${response.statusCode}');
+      }
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Failed to add offer: $e',
+      };
     }
   }
 }
