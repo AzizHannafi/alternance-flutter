@@ -107,7 +107,24 @@ class _JobapplyState extends State<Jobapply> {
     final description = descriptionController.text;
 
     if (isResumeUploaded && description.isNotEmpty) {
+      // Check if the application already exists
+      bool applicationExists = await applicationService.checkApplicationExist(profileId, widget.offerId);
+
+      if (applicationExists) {
+        // Show error message if the application already exists
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'You have already applied for this job.',
+              style: TextStyle(color: Colors.redAccent),
+            ),
+          ),
+        );
+        return; // Exit the function if the application exists
+      }
+
       try {
+        // Proceed with submitting the application
         await applicationService.applyForJob(
           studentId: profileId,
           offerId: widget.offerId,
@@ -118,26 +135,33 @@ class _JobapplyState extends State<Jobapply> {
         // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text(
-            'Application submitted successfully!',
-            style: TextStyle(color: ColorsUtils.primaryGreen),
-          )),
+            content: Text(
+              'Application submitted successfully!',
+              style: TextStyle(color: ColorsUtils.primaryGreen),
+            ),
+          ),
         );
       } catch (e) {
         // Handle the error case
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text("Error submitting application",
-                  style: TextStyle(color: Colors.redAccent))),
+            content: Text(
+              'Error submitting application',
+              style: TextStyle(color: Colors.redAccent),
+            ),
+          ),
         );
       }
     } else {
       // Show validation error
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please complete all fields.')),
+        const SnackBar(
+          content: Text('Please complete all fields.'),
+        ),
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

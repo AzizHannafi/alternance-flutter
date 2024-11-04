@@ -91,6 +91,25 @@ print('*****************************${response.data}');
       throw Exception('Failed to load Applications: $e');
     }
   }
+
+  Future<bool> checkApplicationExist(int studentId, int offerId) async {
+    try {
+      // Fetch applications for the specified student
+      List<ApplicationDto> applications = await fetchApplicationByStudent(studentId);
+
+      // Check if any application matches the given offerId
+      for (ApplicationDto application in applications) {
+        if (application.offerId == offerId && application.studentId==studentId) {
+          return true; // Application with the matching offerId found
+        }
+      }
+      return false; // No matching application found
+    } catch (e) {
+      print("Error in checkApplicationExist: $e");
+      return false; // Return false if there was an error fetching or checking applications
+    }
+  }
+
   Future<void> applyForJob({
     required int studentId,
     required int offerId,
@@ -98,6 +117,8 @@ print('*****************************${response.data}');
     required File file, // List of files to upload
   }) async {
     try {
+      // TODO : make api call to verify that there's no application with the same usr ID AND offerID
+      //CheckApplicationExist(userId,OfferId)
       // Create FormData to send the data in multi-part form
       FormData formData = FormData.fromMap({
         'studentId': studentId.toString(),
