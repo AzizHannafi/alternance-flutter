@@ -1,4 +1,5 @@
 import 'package:alternance_flutter/service/ApiClient.dart';
+import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
 
 import '../../model/offers/AddOfferDto.dart';
 import '../../model/offers/Offers.dart';
@@ -108,4 +109,70 @@ class OfferService {
       };
     }
   }
+  Future<Map<String, dynamic>> updateOffer(int offerId, AddOfferDto offerDto,String? appToken) async {
+
+    final ApiClient _apiClientWithToken = ApiClient.withToken(appToken!);
+
+    try {
+      print('*************************************Updating offer with ID: $offerId');
+      print('************************************Offer data: ${offerDto.toJson()}');
+
+      final response = await _apiClientWithToken.dio.put(
+        "/api/offers/$offerId",
+        data: offerDto.toJson(),
+      );
+
+      print('Response status code: ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        // Offer updated successfully
+        final responseData = response.data as Map<String, dynamic>;
+        final message = responseData['message'] as String;
+        final updatedOffer = responseData['updatedOffer'] as Map<String, dynamic>;
+
+        return {
+          'success': true,
+          'message': message,
+          'updatedOffer': updatedOffer,
+        };
+      } else {
+        throw Exception('Failed to update offer: Unexpected status code ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error in updateOffer: $e');
+      return {
+        'success': false,
+        'message': 'Failed to update offer: $e',
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> deleteOffer(int offerId) async {
+
+    try {
+      final response = await _apiClient.dio.delete("/api/offers/$offerId");
+
+      if (response.statusCode == 200) {
+        // Offer deleted successfully
+        final responseData = response.data as Map<String, dynamic>;
+        final message = responseData['message'] as String;
+        final deletedOffer = responseData['deletedOffer'] as Map<String, dynamic>;
+
+        return {
+          'success': true,
+          'message': message,
+          'deletedOffer': deletedOffer,
+        };
+      } else {
+        throw Exception('Failed to delete offer: Unexpected status code ${response.statusCode}');
+      }
+    } catch (e) {
+      return {
+        'success': false,
+        'message': 'Failed to delete offer: $e',
+      };
+    }
+  }
+
+
 }

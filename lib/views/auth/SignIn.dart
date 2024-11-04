@@ -51,6 +51,7 @@ class _SignInPageState extends State<SignInPage> {
         // Save the email to shared preferences
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('email', email);
+        await prefs.setString('appToken', token);
 
         // Navigate to the next page if login is successful
         Navigator.of(context).pushReplacement(

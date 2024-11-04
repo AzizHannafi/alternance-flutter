@@ -19,6 +19,11 @@ class _OfferDetailsState extends State<OfferDetails> {
   String selectedContent = 'Description';
   String _role = "";
 
+  @override
+  void initState() {
+    super.initState();
+    _initializePreferences();
+  }
   void updateContent(String content) {
     setState(() {
       selectedContent = content;

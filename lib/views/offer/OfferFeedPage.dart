@@ -2,6 +2,8 @@
 import 'package:alternance_flutter/model/Company.dart';
 import 'package:alternance_flutter/service/Offer/OfferService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
+import 'package:alternance_flutter/views/NoData.dart';
+import 'package:alternance_flutter/views/offer/EditOffer.dart';
 import 'package:alternance_flutter/views/search/UserSearchBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,6 +23,7 @@ class OfferFeedPage extends StatefulWidget {
 }
 
 class _OfferFeedPageState extends State<OfferFeedPage> {
+  final offerService = OfferService();
   Future<Offers>? _offersFuture;
   List<Offer> _allOffers = []; // All offers retrieved from the API
   List<Offer> _filteredOffers = []; // Offers after filtering
@@ -40,7 +43,7 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
   }
 
   Future<void> _initializePreferences() async {
-    final offerService = OfferService();
+
     await SharedPreferencesUtils.init();
 
     setState(() {
@@ -101,6 +104,95 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
   void onApplyFilters() {
     filterOffers();
   }
+  void _showDeleteOfferConfirmationDialog(
+      BuildContext context, int offerId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: const Text(
+            'Delete Offer',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: const Text(
+            'Are you sure you want to delete this offer entry?',
+            style: TextStyle(fontSize: 16),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: ColorsUtils.primaryGreen),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              onPressed: () async {
+                // Call the delete offer function when confirmed
+                await _deleteOffer(context, offerId);
+                Navigator.of(context).pop(); // Close the dialog after deletion
+              },
+              child: const Text(
+                'Delete',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _deleteOffer(BuildContext context, int offerId) async {
+    try {
+      // Call the API to delete the offer
+      final response = await offerService.deleteOffer(offerId);
+
+      // Check if the deletion was successful
+      if (response['success'] == true) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              response['message'],
+              style: const TextStyle(color: ColorsUtils.primaryGreen),
+            ),
+          ),
+        );
+      } else {
+        // Show error message from response
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Failed to delete offer: ${response['message']}',
+              style: const TextStyle(color: Colors.redAccent),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      // Show error message if an exception occurs
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Failed to delete offer: $e',
+            style: const TextStyle(color: Colors.redAccent),
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +207,7 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData) {
-                  return const Center(child: Text('No data available'));
+                  return const Center(child: Nodata(filed: 'No Offer available in this status'));
                 }
 
                 return Center(
@@ -162,6 +254,36 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                                   padding: const EdgeInsets.all(10),
                                   child: Row(
                                     children: [
+                                      Column(
+                                        mainAxisAlignment:     MainAxisAlignment.end,
+                                        children: [
+
+                                        Visibility(visible: _role.contains("company"),
+                                            child: IconButton(
+                                              icon: const Icon(
+                                                Icons.edit,
+                                                color: ColorsUtils.primaryGreen,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).push(MaterialPageRoute(
+                                                  builder: (context) => EditOffer(offer: offer,),
+                                                ));
+                                              },
+                                            )),
+                                        Visibility(visible: _role.contains("company"),
+                                            child: IconButton(
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.redAccent,
+                                              ),
+
+                                              onPressed: () {
+                                                _showDeleteOfferConfirmationDialog(
+                                                    context, offer.id);
+                                              },
+                                            )),
+                                      ],),
+
                                       Expanded(
                                         child: Column(
                                           mainAxisAlignment:
