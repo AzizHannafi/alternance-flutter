@@ -1,7 +1,16 @@
+import 'package:alternance_flutter/views/auth/userstate/company_sign_up_state.dart';
+import 'package:alternance_flutter/views/auth/userstate/student_sign_up_state.dart';
+import 'package:alternance_flutter/views/auth/userstate/university_sign_up_state.dart';
 import 'package:flutter/material.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/views/custom/CheckboxC.dart';
 import 'package:alternance_flutter/views/auth/SignIn.dart';
+import 'package:alternance_flutter/views/auth/StudentSignUp.dart';
+import 'package:alternance_flutter/views/auth/CompanySignUp.dart';
+import 'package:alternance_flutter/views/auth/UniversitySignUp.dart';
+
+import '../../model/user/RegisterDto.dart';
+import '../../service/Auth/AuthService.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -15,6 +24,13 @@ class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String? _selectedOption;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final UniversitySignUpState _universitySignUpState = UniversitySignUpState();
+  final StudentSignUpState _studentSignUpState = StudentSignUpState();
+  final CompanySignUpState _companySignUpState = CompanySignUpState();
+
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +60,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     _gap(),
                     TextFormField(
+                      controller: _emailController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'This field is required';
                         }
                         bool emailValid = RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value);
                         if (!emailValid) {
                           return 'Please enter a valid email';
@@ -63,10 +80,11 @@ class _SignUpPageState extends State<SignUpPage> {
                           border: OutlineInputBorder(),
                           enabledBorder: OutlineInputBorder(
                               borderSide:
-                                  BorderSide(color: ColorsUtils.primaryGreen))),
+                              BorderSide(color: ColorsUtils.primaryGreen))),
                     ),
                     _gap(),
                     TextFormField(
+                      controller: _passwordController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'This field is required';
@@ -84,7 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           border: const OutlineInputBorder(),
                           enabledBorder: const OutlineInputBorder(
                               borderSide:
-                                  BorderSide(color: ColorsUtils.primaryGreen)),
+                              BorderSide(color: ColorsUtils.primaryGreen)),
                           suffixIcon: IconButton(
                             icon: Icon(_isPasswordVisible
                                 ? Icons.visibility_off
@@ -135,6 +153,16 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     _gap(),
+                    if (_selectedOption == "Student") ...[
+                      StudentSignUp(key: UniqueKey(), state: _studentSignUpState),
+                      _gap(),
+                    ] else if (_selectedOption == "Company") ...[
+                      CompanySignUp(key: UniqueKey(), state: _companySignUpState),
+                      _gap(),
+                    ] else if (_selectedOption == "University") ...[
+                      UniversitySignUp(key: UniqueKey(), state: _universitySignUpState),
+                      _gap(),
+                    ],
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -152,22 +180,77 @@ class _SignUpPageState extends State<SignUpPage> {
                                 color: Colors.white),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState?.validate() ?? false) {
-                            // Perform signup action here
-                            Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                              builder: (context) => const SignInPage(),
-                            ));
+                            RegisterDto registerDto;
+                            switch (_selectedOption) {
+                              case "University":
+                                registerDto = RegisterDto(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  role: "university",
+                                  universityName: _universitySignUpState.universityNameController.text,
+                                  universityLocation: _universitySignUpState.locationController.text,
+                                );
+                                break;
+                              case "Student":
+                                registerDto = RegisterDto(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  role: "student",
+                                  firstName: _studentSignUpState.firstNameController.text,
+                                  lastName: _studentSignUpState.lastNameController.text,
+                                  dateOfBirth: _studentSignUpState.dateOfBirth,
+                                );
+                                break;
+                              case "Company":
+                                registerDto = RegisterDto(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  role: "company",
+                                  companyName: _companySignUpState.companyNameController.text,
+                                  companyLocation: _companySignUpState.locationController.text,
+                                  industry: _companySignUpState.industryController.text,
+                                );
+                                break;
+                              default:
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Please select a role')),
+                                );
+                                return;
+                            }
+
+                            final result = await _authService.registerUser(registerDto);
+
+                            if (result['success']) {
+                              // Registration successful
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(result['message'])),
+                              );
+                              // Navigate to SignInPage or handle the successful registration
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                builder: (context) => const SignInPage(),
+                              ));
+                            } else {
+                              // Registration failed
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(result['message']),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              print('Registration failed: ${result['message']}');
+                            }
                           }
                         },
                       ),
                     ),
+
                     SizedBox(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Don't have an account ?"),
+                          const Text("Already have an account?"),
                           TextButton(
                               onPressed: () {
                                 Navigator.of(context)
@@ -194,5 +277,5 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _gap() => const SizedBox(height: 30);
+  Widget _gap() => const SizedBox(height: 16);
 }
