@@ -1,7 +1,7 @@
-import 'package:alternance_flutter/model/Company.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 
+import '../model/user/Company.dart';
 import '../service/company/CompanyService.dart';
 
 class CompanyProfileWidget extends StatefulWidget {

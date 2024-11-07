@@ -1,6 +1,5 @@
-import 'package:alternance_flutter/model/offers/Offer.dart';
-import '../Company.dart';
-import '../University .dart';
+
+import '../user/University .dart';
 
 class Offerapplicationdto {
   String title;            // Declare class members

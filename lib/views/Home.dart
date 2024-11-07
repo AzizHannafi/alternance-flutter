@@ -1,4 +1,4 @@
-import 'package:alternance_flutter/model/UserProfile.dart';
+import 'package:alternance_flutter/model/user/UserProfile.dart';
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/service/company/CompanyService.dart';
 import 'package:alternance_flutter/service/univesrsity/UniversityService.dart';

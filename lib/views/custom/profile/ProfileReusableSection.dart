@@ -1,12 +1,14 @@
-import 'package:alternance_flutter/model/Company.dart';
-import 'package:alternance_flutter/model/Student.dart';
-import 'package:alternance_flutter/model/University%20.dart';
-import 'package:alternance_flutter/model/UserProfile.dart';
+
+import 'package:alternance_flutter/model/user/UserProfile.dart';
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/service/company/CompanyService.dart';
 import 'package:alternance_flutter/service/univesrsity/UniversityService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
+
+import '../../../model/user/Company.dart';
+import '../../../model/user/Student.dart';
+import '../../../model/user/University .dart';
 
 class Profilereusablesection extends StatefulWidget {
   final String title;

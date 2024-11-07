@@ -1,8 +1,8 @@
-import 'package:alternance_flutter/model/University%20.dart';
 import 'package:alternance_flutter/service/univesrsity/UniversityService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../model/user/University .dart';
 import '../utils/ColorsUtils.dart';
 
 class Universityprofilewidget extends StatefulWidget {

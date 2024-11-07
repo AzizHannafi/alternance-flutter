@@ -1,8 +1,9 @@
-import 'package:alternance_flutter/model/Student.dart';
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/utils/DateUtilsC.dart';
 import 'package:flutter/material.dart';
+
+import '../../../model/user/Student.dart';
 
 class StudentProfileWidget extends StatefulWidget {
   final Student student;

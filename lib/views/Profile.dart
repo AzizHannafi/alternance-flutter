@@ -1,7 +1,6 @@
 import 'package:alternance_flutter/model/Certificate.dart';
 import 'package:alternance_flutter/model/Experience.dart';
-import 'package:alternance_flutter/model/Student.dart';
-import 'package:alternance_flutter/model/UserProfile.dart';
+import 'package:alternance_flutter/model/user/UserProfile.dart';
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/service/certificate/CertificateService.dart';
 import 'package:alternance_flutter/service/company/CompanyService.dart';

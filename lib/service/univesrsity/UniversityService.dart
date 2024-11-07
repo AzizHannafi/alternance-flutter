@@ -1,4 +1,4 @@
-import '../../model/University .dart';
+import '../../model/user/University .dart';
 import '../ApiClient.dart';
 
 class UniversityService {

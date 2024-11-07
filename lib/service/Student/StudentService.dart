@@ -1,5 +1,6 @@
-import 'package:alternance_flutter/model/Student.dart';
 import 'package:alternance_flutter/service/ApiClient.dart';
+
+import '../../model/user/Student.dart';
 
 class Studentservice {
   final ApiClient _apiClient = ApiClient();

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../model/Certificate.dart';
 import '../model/Education.dart';
 import '../model/Experience.dart';
-import '../model/UserProfile.dart';
+import '../model/user/UserProfile.dart';
 import '../service/Student/StudentService.dart';
 import '../service/certificate/CertificateService.dart';
 import '../service/company/CompanyService.dart';

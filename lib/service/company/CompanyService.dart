@@ -1,5 +1,6 @@
-import 'package:alternance_flutter/model/Company.dart';
 import 'package:alternance_flutter/service/ApiClient.dart';
+
+import '../../model/user/Company.dart';
 
 class Companyservice {
   final ApiClient _apiClient = ApiClient();

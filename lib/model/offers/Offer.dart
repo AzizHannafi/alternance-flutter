@@ -1,5 +1,7 @@
-import 'package:alternance_flutter/model/Company.dart';
-import 'package:alternance_flutter/model/University%20.dart';
+
+
+import '../user/Company.dart';
+import '../user/University .dart';
 
 class Offer {
   final int id;

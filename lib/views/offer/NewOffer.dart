@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:alternance_flutter/service/offer/OfferService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 
-import '../../model/University .dart';
 import '../../model/offers/AddOfferDto.dart';
 
 class NewOffer extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:alternance_flutter/model/UserProfile.dart';
+import 'package:alternance_flutter/model/user/UserProfile.dart';
 
 class Company extends UserProfile {
   String? companyName;

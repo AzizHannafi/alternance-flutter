@@ -1,10 +1,9 @@
 import 'package:alternance_flutter/service/company/CompanyService.dart';
-import 'package:alternance_flutter/views/ViewProfile.dart';
 import 'package:alternance_flutter/views/offer/CompanyCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../model/Company.dart';
+import '../model/user/Company.dart';
 import '../utils/ColorsUtils.dart';
 import 'NoData.dart';
 

@@ -1,9 +1,9 @@
-import 'package:alternance_flutter/model/Student.dart';
 import 'package:alternance_flutter/utils/DateUtilsC.dart';
 import 'package:alternance_flutter/views/ViewProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../model/user/Student.dart';
 import '../utils/ColorsUtils.dart';
 
 class StudentCard extends StatelessWidget {

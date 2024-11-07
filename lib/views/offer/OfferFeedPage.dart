@@ -1,5 +1,3 @@
-// Updated import for OfferDetails
-import 'package:alternance_flutter/model/Company.dart';
 import 'package:alternance_flutter/service/Offer/OfferService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
 import 'package:alternance_flutter/views/NoData.dart';
@@ -10,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../model/offers/Offer.dart';
 import '../../model/offers/Offers.dart';
+import '../../model/user/Company.dart';
 import '../../service/company/CompanyService.dart';
 import '../../utils/SharedPreferencesUtils.dart';
 import 'NewOffer.dart';

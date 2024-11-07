@@ -1,8 +1,9 @@
-import 'package:alternance_flutter/model/Student.dart';
 import 'package:alternance_flutter/model/applicationOfferStudent/Certificate.dart';
 import 'package:alternance_flutter/model/applicationOfferStudent/Education.dart';
 import 'package:alternance_flutter/model/applicationOfferStudent/Experience.dart';
 import 'package:alternance_flutter/model/applicationOfferStudent/User.dart';
+
+import '../user/Student.dart';
 
 
 class Studentdto extends Student {

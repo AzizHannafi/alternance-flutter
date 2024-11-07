@@ -1,4 +1,3 @@
-import 'package:alternance_flutter/model/Company.dart';
 import 'package:alternance_flutter/model/CompanyDto.dart';
 
 class OfferDto {

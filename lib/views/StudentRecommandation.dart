@@ -1,10 +1,9 @@
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/views/StudentCard.dart';
-import 'package:alternance_flutter/views/ViewProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../model/Student.dart';
+import '../model/user/Student.dart';
 import '../utils/ColorsUtils.dart';
 import 'NoData.dart';
 

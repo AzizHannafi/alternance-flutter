@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:alternance_flutter/model/Student.dart';
 import 'package:alternance_flutter/service/Student/StudentService.dart';
 import 'package:alternance_flutter/service/application/ApplicationService.dart';
 import 'package:alternance_flutter/utils/ColorsUtils.dart';
@@ -8,6 +7,8 @@ import 'package:alternance_flutter/utils/SharedPreferencesUtils.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../model/user/Student.dart';
 
 class Jobapply extends StatefulWidget {
   final int offerId;
