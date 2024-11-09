@@ -37,7 +37,7 @@ class RegisterDto {
       if (companyLocation != null) 'companyLocation': companyLocation,
       if (industry != null) 'industry': industry,
       if (universityName != null) 'universityName': universityName,
-      if (universityLocation != null) 'universityLocation': universityLocation,
+      if (universityLocation != null) 'location': universityLocation,
     };
   }
 }

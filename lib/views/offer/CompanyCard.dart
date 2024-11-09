@@ -1,5 +1,4 @@
 import 'package:alternance_flutter/views/ViewProfile.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/user/Company.dart';
@@ -48,10 +47,10 @@ class CompanyCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                company.about!,
+                company.about==null? "N/A":company.about!,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: ColorsUtils.primaryWhite),
+                style: const TextStyle(color: ColorsUtils.primaryWhite),
               ),
               const SizedBox(height: 8),
               Row(
@@ -60,7 +59,7 @@ class CompanyCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Location:',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -68,7 +67,7 @@ class CompanyCard extends StatelessWidget {
                       ),
                       Text(
                         '${company.location}',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: ColorsUtils.primaryWhite),
                       )
@@ -77,13 +76,13 @@ class CompanyCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Industry:',
+                      const Text('Industry:',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: ColorsUtils.primaryWhite,
                           )),
                       Text('${company.industry}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: ColorsUtils.primaryWhite,
                           ))

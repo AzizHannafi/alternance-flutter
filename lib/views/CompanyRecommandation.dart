@@ -1,6 +1,5 @@
 import 'package:alternance_flutter/service/company/CompanyService.dart';
 import 'package:alternance_flutter/views/offer/CompanyCard.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../model/user/Company.dart';
@@ -36,13 +35,13 @@ class _CompanyRecommandationState extends State<CompanyRecommandation> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               children: [
                 Icon(Icons.business, color: ColorsUtils.primaryGreen),
-                const SizedBox(
+                 SizedBox(
                   width: 10,
                 ),
-                const Text(
+                 Text(
                   "Companies Recommendation",
                   style: TextStyle(
                     fontSize: 20,
@@ -57,18 +56,18 @@ class _CompanyRecommandationState extends State<CompanyRecommandation> {
               future: _companyFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(
                       child: Container(
                     height: 300,
-                    child: Nodata(filed: "No Company available"),
+                    child: const Nodata(filed: "No Company available"),
                   ));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(
                       child: Container(
                     height: 300,
-                    child: Nodata(filed: "No Company available"),
+                    child: const Nodata(filed: "No Company available"),
                   ));
                 } else {
                   // Extract the list of offers from the Offers object
@@ -77,7 +76,7 @@ class _CompanyRecommandationState extends State<CompanyRecommandation> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: companies
-                          .map((company) => CompanyCard(company: company),)
+                          .map((company) => CompanyCard(company: company))
                           .toList(),
                     ),
                   );
