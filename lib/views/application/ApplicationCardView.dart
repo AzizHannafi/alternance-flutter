@@ -69,8 +69,8 @@ class _ApplicationCardViewState extends State<ApplicationCardView> {
                 } else if (snapshot.hasError) {
                   return Center(
                       child: Container(
-                    height: 300,
-                    child: Nodata(filed: "No applications found"),
+                      height: 300,
+                      child: Nodata(filed: "No applications found"),
                   ));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(

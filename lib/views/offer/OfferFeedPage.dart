@@ -234,7 +234,7 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                           ),
                         ),
                         Expanded(
-                          child: ListView.builder(
+                          child: _filteredOffers.length==0 ? Nodata(filed: "No Offer with this Status"):ListView.builder(
                             itemCount: _filteredOffers.length,
                             itemBuilder: (BuildContext context, int index) {
                               final offer = _filteredOffers[index];
@@ -257,38 +257,38 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                                         mainAxisAlignment:     MainAxisAlignment.end,
                                         children: [
 
-                                        Visibility(visible: _role.contains("company"),
-                                            child: IconButton(
-                                              icon: const Icon(
-                                                Icons.edit,
-                                                color: ColorsUtils.primaryGreen,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).push(MaterialPageRoute(
-                                                  builder: (context) => EditOffer(offer: offer,),
-                                                ));
-                                              },
-                                            )),
-                                        Visibility(visible: _role.contains("company"),
-                                            child: IconButton(
-                                              icon: const Icon(
-                                                Icons.delete,
-                                                color: Colors.redAccent,
-                                              ),
+                                          Visibility(visible: _role.contains("company"),
+                                              child: IconButton(
+                                                icon: const Icon(
+                                                  Icons.edit,
+                                                  color: ColorsUtils.primaryGreen,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context).push(MaterialPageRoute(
+                                                    builder: (context) => EditOffer(offer: offer,),
+                                                  ));
+                                                },
+                                              )),
+                                          Visibility(visible: _role.contains("company"),
+                                              child: IconButton(
+                                                icon: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.redAccent,
+                                                ),
 
-                                              onPressed: () {
-                                                _showDeleteOfferConfirmationDialog(
-                                                    context, offer.id);
-                                              },
-                                            )),
-                                      ],),
+                                                onPressed: () {
+                                                  _showDeleteOfferConfirmationDialog(
+                                                      context, offer.id);
+                                                },
+                                              )),
+                                        ],),
 
                                       Expanded(
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               offer.title,
@@ -322,11 +322,11 @@ class _OfferFeedPageState extends State<OfferFeedPage> {
                                           decoration: BoxDecoration(
                                             color: ColorsUtils.transparentGreen,
                                             borderRadius:
-                                                BorderRadius.circular(50),
+                                            BorderRadius.circular(50),
                                           ),
                                           child: ClipRRect(
                                             borderRadius:
-                                                BorderRadius.circular(50),
+                                            BorderRadius.circular(50),
                                             child: SvgPicture.asset(
                                               'assets/company.svg',
                                               width: 50,

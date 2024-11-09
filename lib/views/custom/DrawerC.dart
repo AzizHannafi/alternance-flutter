@@ -99,12 +99,7 @@ class _DrawercState extends State<Drawerc> {
                       icon: Icons.person,
                       selectedIcon: Icons.person_2_outlined,
                     ),
-                    _buildListTile(
-                      index: 1,
-                      title: 'Settings',
-                      icon: Icons.settings,
-                      selectedIcon: Icons.settings,
-                    ),
+
                     _buildListTile(
                       index: 2,
                       title: 'Help',

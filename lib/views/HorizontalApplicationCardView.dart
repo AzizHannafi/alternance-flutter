@@ -70,9 +70,9 @@ class _HorizontalapplicationcardviewState extends State<Horizontalapplicationcar
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return Center(child: Nodata(filed: 'No applications found.'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No applications found.'));
+                  return const Center(child: Nodata(filed: 'No applications found.'));
                 } else {
                   final applications = snapshot.data!;
                   // Apply the filter if a status is selected
